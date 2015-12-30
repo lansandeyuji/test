@@ -1,0 +1,96 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>【11.11】热门会场</title>
+    <link rel="stylesheet" href="index.css">
+    
+</head>
+<body>
+<div class="mod_row MOD_ID_XXX">
+  
+      <div class="mod_cont side_menuu_side">
+        <div class="side_comment">
+            <div class="side_function">
+                <div class="side_menu_logo"></div>
+                <a class="side_back" href="">回主会场</a>
+                <a class="side_in" href="">充值抢红包</a>
+                <div class="side_menu_modu">
+                
+                  
+                    <div class="side_menu_a"><a class="side_c side_choose side_choose" href="javascript:;"></a></div>
+                    
+                </div>
+                <a href="javascript:;"  class="side_top">好货抢先预售</a>
+            </div>
+            </div>
+        </div>
+
+
+
+
+     <script>
+$(function(){
+    var rannnd ={
+        
+    int: function(){
+        
+    
+      this.render();
+      this.addEvent();
+      this.addHeight();
+      this.topShow();
+    }
+   render: function () {
+      var titleList = [],
+          titt = $(".titt_text").attr("tittle"),
+          $itemm = $('.hotlist .titt_text');
+          console.log(titt);
+        $itemm.each(function(){
+        console.log(titt);
+            var str = '<div class="side_menu_a"><a class="side_c side_choose side_choose" href="#'+this.id+'"> '+ titt +' </a></div>';
+            titleList.push(str);
+        });
+      $('.side_menu_modu').html(titleList.join(''));
+    },
+
+    addEvent: function () {
+      var that = this;
+
+      $('.side_menu_side').on('click', '.side_top', function () {
+        $(window, document).scrollTop(0);
+      })
+    },
+    addHeight: function(){
+      var Top = $(window).height(),
+          Height = $('.side_menu_side').height();
+          t_height = (Top - Height)/2;
+          $('.side_menu_side').css("top",t_height);
+    },
+    topShow: function(){
+      var Top = $(window).height(),
+           side = $('.side_menu_side');
+           side.css('display','none');
+      var showtop = $(window).scrollTop();
+      if(showtop>=700){
+        side.css('display','block');
+      }
+          $(window).bind("scroll",function() {
+            var showtop = $(window).scrollTop();
+            console.log(showtop);
+            if(showtop >= 700){
+              side.fadeIn();
+              console.log(showtop);
+            }else {
+                side.fadeOut();
+            }
+    });
+    }
+  }
+  rannnd.int()
+})
+
+   </script>
+
+</body>
+</html>
+

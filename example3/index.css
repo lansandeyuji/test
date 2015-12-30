@@ -1,0 +1,125 @@
+/*双十右侧悬浮模块*/
+.MOD_ID_XXX .side_menuu_side {
+  position: fixed;
+  top: 15px;
+  left: 50%;
+  z-index: 999;
+  margin-left: 480px;
+  height: auto;
+}
+
+.MOD_ID_XXX .side_menuu_side .side_function {
+  padding-left: 10px;
+}
+
+.MOD_ID_XXX .side_menuu_side .side_function a {
+  display: block;
+}
+
+.MOD_ID_XXX .side_menuu_side .side_function .side_menu_logo {
+  width: 188px;
+  height: 154px;
+  background: url(http://s17.mogucdn.com/p1/151014/upload_ie2win3gg5sdqyrtgqzdambqhayde_188x154.png) -45px 35px no-repeat;
+  overflow: visible;
+}
+
+.MOD_ID_XXX .side_menuu_side .side_function .side_back, .MOD_ID_XXX .side_menuu_side .side_function .side_in {
+  width: 130px;
+  height: 40px;
+  margin-bottom: 3px;
+  line-height: 40px;
+  text-indent:12px;
+  color: #fff;
+  background: url(http://s16.mogucdn.com/p1/151013/upload_ie2dsyjzmm4tgobtgqzdambqgiyde_6x10.png) 112px 16px no-repeat;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: block;
+}
+.MOD_ID_XXX .side_menuu_side .side_function .side_back {
+    background-color: #333;
+}
+.MOD_ID_XXX .side_menuu_side .side_function .side_in{
+    background-color: #ff274c;
+}
+
+.MOD_ID_XXX .side_menuu_side .side_function .side_menu_modu {
+  width:130px;
+  background-color: #ff274c;
+  border-radius: 5px;
+  overflow:hidden;
+}
+
+.MOD_ID_XXX .side_menuu_side .side_function .side_c {
+  width: 118px;
+  height: 36px;
+  line-height: 36px;
+  border-top: 1px dotted #ffb54b;
+  color: #fff;
+  font-size: 14px;
+  text-indent:20px;
+}
+
+
+.MOD_ID_XXX .side_menuu_side .side_function .side_choose_0 {
+  border-top:none;
+}
+.MOD_ID_XXX .side_menuu_side .side_function .side_menu_a {
+  background: url(http://s16.mogucdn.com/p1/151013/upload_ie2dsyjzmm4tgobtgqzdambqgiyde_6x10.png) 112px 13px no-repeat;
+
+  padding:0 6px;
+          }
+
+.MOD_ID_XXX .side_menuu_side .side_function .side_menu_a:hover {
+  background-color: #ca0023;
+}
+
+.MOD_ID_XXX .side_menuu_side .side_function .side_top {
+  height: 46px;
+  width:130px;
+  background-color: #ff274c;
+  color: #fff;
+  line-height: 55px;
+  margin-top: 3px;
+  border-radius: 5px;
+  text-align: center;
+
+}
+
+
+.MOD_ID_XXX .side_menuu_side .side_coupons {
+  margin-top: 4px;
+  color: #fff;
+  text-align: center;
+}
+
+.MOD_ID_XXX .side_menuu_side .side_cou {
+  display: block;
+  padding-top: 4px;
+  margin-bottom: 1px;
+  width: 100px;
+  height: 67px;
+  background: #e5004f;
+}
+
+.MOD_ID_XXX .side_menuu_side .side_cou .side_cou_tit {
+  font-size: 16px;
+}
+
+.MOD_ID_XXX .side_menuu_side .side_cou .side_cou_bom {
+  position: relative;
+  padding-left: 12px;
+  display: inline-block;
+  *display: inline;
+  font-size: 36px;
+  line-height: 36px;
+  font-family: "Microsoft Yahei", "Heiti";
+  font-weight: 700;
+}
+.MOD_ID_XXX .side_menuu_side .side_cou .side_cou_bom .side_cou_icon {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 2;
+    font-size: 14px;
+    line-height: 16px;
+  }

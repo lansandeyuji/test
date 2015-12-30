@@ -1,0 +1,226 @@
+.swiper-slide{
+	/*background-color: #333;*/
+	display: table;
+}
+.swiper-slide >div{
+	display: table-cell;
+	vertical-align: middle;
+	position: relative;
+}
+.swiper-slide  h1{
+	color: #00AB7B;
+	margin-top: 2rem;
+	margin-bottom: 1rem;
+	font-size: 3rem;
+}
+.swiper-slide p{
+	color: #999;
+	margin-bottom: 0.5rem;
+	font-size: 1.5rem;
+}
+
+.baby{
+	position: absolute;
+	left: 50%;
+	margin-left: -8rem;
+	top: 50%;
+	margin-top: -10rem;
+	
+}
+.phone{
+	position: absolute;
+	left: 50%;
+	margin-top: 3rem;
+	margin-left: -3rem;
+}
+.weixin{
+	position: absolute;
+	left: 50%;
+	margin-top: 5rem;
+}
+
+
+.icon{
+	position: absolute;
+	left: 50%;
+	top: 50%;
+}
+.icon1{
+	margin-left: -9rem;
+	margin-top: -9rem;
+}
+.icon2{
+	margin-left: -6rem;
+	margin-top: -13.5rem;
+}
+.icon3{
+	margin-left: 4rem;
+	margin-top: -16rem;
+}
+.icon4{
+	margin-left: 8rem;
+	margin-top: -12rem;
+}
+.icon5{
+	margin-top: -4rem;
+	margin-left: -1rem;
+}
+.icon-21{
+	margin-top: -14rem;
+}
+.icon-22{
+	margin-left: -10rem;
+	margin-top: -4rem;
+}
+
+.icon-23{
+	margin-top: -16rem;
+	margin-left: -10rem;
+}
+.icon-24{
+	margin-left: -6rem;
+	margin-top: -15rem;
+}
+.icon-25{
+	margin-left: -5rem;
+	margin-top: -13rem;
+}
+.icon-26{
+	margin-left: -10rem;
+	margin-top: -4rem;
+}
+.icon-31{
+	margin-left: -7rem;
+	margin-top: -13rem;
+}
+.icon-33{
+	margin-left: -12rem;
+	margin-top: 4rem;
+}
+.icon-34{
+	margin-left: -12rem;
+	margin-top: -14rem;
+}
+.icon-35{
+	margin-left: -10rem;
+	margin-top: 7.2rem;
+}
+
+.icon-rotate-1{
+	margin-left: -15rem;
+	margin-top: -4rem;
+}
+.icon-rotate-2{
+	margin-top: -15rem;
+	margin-left: 7rem;
+	transform:rotate(20deg);
+	-ms-transform:rotate(20deg); 	/* IE 9 */
+	-moz-transform:rotate(20deg); 	/* Firefox */
+	-webkit-transform:rotate(20deg); /* Safari 和 Chrome */
+	-o-transform:rotate(20deg); 
+}
+
+.icon-rotate-3{
+	margin-top: -6rem;
+	margin-left: 9rem;
+	transform:rotate(15deg);
+	-ms-transform:rotate(15deg); 	/* IE 9 */
+	-moz-transform:rotate(15deg); 	/* Firefox */
+	-webkit-transform:rotate(15deg); /* Safari 和 Chrome */
+	-o-transform:rotate(15deg); 
+}
+.icon-rotate-4{
+	margin-top: -10rem;
+	margin-left: -12rem;
+	transform:rotate(-15deg);
+	-ms-transform:rotate(-15deg); 	/* IE 9 */
+	-moz-transform:rotate(-15deg); 	/* Firefox */
+	-webkit-transform:rotate(-15deg); /* Safari 和 Chrome */
+	-o-transform:rotate(-15deg); 
+}
+.icon-yh-1{
+	margin-left: -5rem;
+	margin-top: -12rem;
+}
+.icon-yh-2{
+	margin-top: 2rem;
+	margin-left: 6rem;
+	transform:rotate(110deg);
+	-ms-transform:rotate(110deg); 	/* IE 9 */
+	-moz-transform:rotate(110deg); 	/* Firefox */
+	-webkit-transform:rotate(110deg); /* Safari 和 Chrome */
+	-o-transform:rotate(110deg); 
+}
+.icon-41{
+	margin-left: -9.5rem;
+	margin-top: -18rem;
+}
+.icon-42{
+	margin-left: -5rem;
+	margin-top: -1rem;
+}
+.icon-51{
+	margin-left: -9rem;
+	margin-top: -12rem;
+}
+.icon-52{
+	margin-top: -6rem;
+	margin-left: 2rem;
+}
+.icon-53{
+	margin-top: -4.4rem;
+	margin-left: .8rem;
+}
+.icon-54{
+	margin-left: -9rem;
+	margin-top: -2rem;
+}
+.icon-55{
+	margin-left: -3rem;
+	margin-top: -3.2rem;
+}
+.icon-56{
+	margin-top: -2.8rem;
+	margin-left: -6.5rem;
+}
+.icon-57{
+	margin-left: -4rem;
+	margin-top: -1.4rem;
+}
+.icon-58{
+	margin-left: 8rem;
+	margin-top: -2rem;
+}
+.icon-61{
+	margin-left: -5rem;
+	margin-top: -22rem;
+}
+.icon-62{
+	margin-left: -10rem;
+	margin-top: -18rem;
+}
+.icon-63{
+	margin-left: -10rem;
+	margin-top: -18rem;
+}
+.icon-64{
+	margin-left: -10rem;
+	margin-top: -16rem;
+}
+.icon-71{
+	margin-left: -11rem;
+	margin-top: -12rem;
+}
+.icon-72{
+	margin-top: -5.5rem;
+	margin-left: -4.5rem;
+}
+
+.icon-73{
+	margin-top: -15rem;
+	margin-left: 1.5rem;
+}
+.icon-74{
+	margin-left: -3rem;
+	margin-top: -8.8rem;
+}

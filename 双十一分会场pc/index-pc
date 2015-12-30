@@ -1,0 +1,3614 @@
+头部：
+    <style>
+     
+       .page_activity .mod_row{
+        width:100%;
+    }
+    .top_pic {
+        height:452px;
+        width:100%;
+    
+        background:url（"http://s16.mogucdn.com/p1/151022/upload_ie4tcyjwgbswenjwgqzdambqgqyde_1920x454.png") -250px 0;
+    }
+    </style>
+    <div class="top_pic" alt=""></div>
+</div>
+抢券：
+<div class="mod_row MOD_ID_XXX">
+<?php
+        $coupon = $data['formData']['coupon']['models'];
+    ?>
+    <style>
+     
+    </style>
+    <div class="coupon">
+        <a class="coupon_a" href="<?php echo $coupon[0]['url']; ?>">
+            <img src="<?php echo $coupon[0]['img']; ?>" alt="">
+        </a>
+        
+        <a class="coupon_a" href="<?php echo $coupon[1]['url']; ?>">
+            <img src="<?php echo $coupon[1]['img']; ?>" alt="">
+        </a>
+    
+    </div>
+</div>
+
+.MOD_ID_XXX .coupon{
+         margin:50px auto 56px;
+         width:965px;
+     } 
+     .MOD_ID_XXX .coupon .coupon_a {
+         display:inline-block;
+         width:460px;
+         height:179px;
+         margin-left:18px;
+     }
+
+
+
+支付快抢：
+
+<div class="mod_row MOD_ID_XXX module-fastbuy">
+    <?php
+        $conf = $data['formData']['conf']['models'][0];
+        $adminTime = request('t');
+        $PHPdata = Model_FastBuy_Act_Double11::instance()->getRushTimes($adminTime);
+        $navList = $PHPdata['navList'];
+        $limitTime = $PHPdata['limitTime'];
+        $now = $PHPdata['now'];
+        $onGoingTime = $PHPdata['onGoingTime'];
+    ?>
+
+    <?php
+    $highlightIndex = 0;
+    $i = 0;
+    foreach ($navList as $nav) {
+        if ($limitTime == $nav['timeStamp']) {
+            $highlightIndex = $i;
+        }
+        $i++;
+    }
+     ?>
+
+    <style>
+        .module-fastbuy .main {
+            background: <?php echo $conf['background']; ?>;
+        }
+    </style>
+
+    <script>
+        window.highlightIndex = <?php echo $highlightIndex; ?>;
+    </script>
+
+    <div class="main">
+        <div class="top-banner" data-time="<?php zecho($adminTime); ?>"></div>
+        <div class="nav-box">
+            <div class="active-arrow">
+                <div class="center"></div>
+            </div>
+            <div class="controller">
+                <div class="prev ctrl-item"></div>
+                <div class="next ctrl-item"></div>
+            </div>
+            <div class="nav-box-wrapper">
+                <div class="nav-list clearfix yahei">
+                    <a href="javascript:;" class="nav-item first" data-tab="-1"></a>
+                    <?php foreach ($navList as $key => $item) { ?>
+                    <a href="javascript:;" class="nav-item fl" data-timestamp="<?php zecho($item['timeStamp']); ?>" <?php if($limitTime == $item['timeStamp']) { ?> data-top-id="<?php zecho($topId); ?>" data-top-type="<?php zecho($topType); ?>" <?php } ?>>
+                        <p class="seckill-time"><?php echo $item['date']; ?></p>
+                        <p class="seckill-hour"><?php echo $item['hour']; ?></p>
+                    </a>
+                    <?php } ?>
+
+                    <!-- TODO：8号后面显示 双十一，即将开启 -->
+                    <a href="javascript:;" class="nav-item last" data-tab="-1"></a>
+                </div>
+            </div>
+        </div>
+        <div class="nav-box-static" style="display: none;"></div>
+        <div class="clearfix" style="position: relative;">
+            <div class="content">
+                <div class="content-header">
+                    <?php $i = 0 ;
+                    foreach ($navList as $nav) {
+                        $active = '';
+                        $status = '已开抢';
+                        if ($limitTime == $nav['timeStamp']) {
+                            $active = 'active';
+                            $status = '快抢中';
+                        } else if ($nav['status'] == 0) {
+                            $status = '即将开始';
+                        }
+
+                        if($nav['status'] == 0) {
+                            $text = '距离开始还有';
+                        } else {
+                            $text = '距离结束还有';
+                        }
+                        
+                        // 9号23点到十号未开抢之前，虽然处于高亮，但强制显示即将开始
+                        if ($active == 'active' && $now >= strtotime('2015-11-09 23:00:00') && $now < $limitTime) {
+                            $status = '即将开始';
+                        }
+                    ?>
+                        <div class="count-down-box clearfix <?php echo $active; ?>" id="header-list-<?php echo $i + 2; ?>">
+                            <span class="fl seckill-status">当前状态：<?php echo $status; ?></span>
+                            <span class="fr count-down"><?php echo $text; ?><span class="timer" data-time-left="<?php echo $nav['leftTime'] * 1000; ?>">&nbsp;</span></span>
+                      </div>
+                    <?php $i++; } ?>                
+                </div>
+                <div class="content-body">
+                </div>
+            </div>
+        </div>
+    </div>    
+</div>
+
+
+@charset "UTF-8";
+.MOD_ID_XXX .text_hide {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden; }
+.MOD_ID_XXX .yahei {
+  font-family: Arial,"Hiragino Sans GB","Microsoft Yahei","微软雅黑","宋体",Tahoma,Arial,Helvetica,STHeiti; }
+.MOD_ID_XXX .main {
+  margin: 0 auto; }
+.MOD_ID_XXX .nav-box {
+  position: relative;
+  font-size: 22px;
+  z-index: 20;
+  color: #999;
+  background: #323232;
+  _overflow: hidden;
+  position: relative; }
+.MOD_ID_XXX .nav-box .nav-box-wrapper {
+    position: relative;
+    overflow: hidden; }
+.MOD_ID_XXX .nav-box .active-arrow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    margin: 0 auto; }
+.MOD_ID_XXX .nav-box .active-arrow .center {
+      background: #fe4566;
+      margin: 0 auto; }
+.MOD_ID_XXX .nav-box .active-arrow .center:after {
+        content: " ";
+        width: 0;
+        height: 0;
+        border: 10px solid transparent;
+        border-top-color: #fe4566;
+        position: absolute;
+        left: 50%;
+        bottom: -20px;
+        margin-left: -10px; }
+.MOD_ID_XXX .nav-box .nav-list {
+    position: absolute;
+    left: 0;
+    top: 0;
+    -webkit-transition: left 0.3s;
+            transition: left 0.3s; }
+.MOD_ID_XXX .nav-box .nav-list .nav-item {
+      color: #fff;
+      float: left;
+      text-align: center;
+      position: relative;
+      padding-top: 10px; }
+.MOD_ID_XXX .nav-box .nav-list .nav-item.first,
+.MOD_ID_XXX .nav-box .nav-list .nav-item.last {
+        font-size: 20px;
+        padding: 0; }
+.MOD_ID_XXX .nav-box .nav-list .nav-item .seckill-time {
+        font-size: 17px;
+        line-height: 1; }
+.MOD_ID_XXX .nav-box .nav-list .nav-item .seckill-hour {
+        font-size: 18px;
+        line-height: 1;
+        padding-top: 4px;
+        font-weight: bold; }
+
+/* 导航左右 TAB 控制 */
+.MOD_ID_XXX .controller {
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: 0; }
+.MOD_ID_XXX .controller .ctrl-item {
+    position: absolute;
+    z-index: 6;
+    cursor: pointer;
+    display: none;
+    opacity: 0;
+    -webkit-transition: opacity 1s;
+            transition: opacity 1s; }
+.MOD_ID_XXX .controller .ctrl-item.disabled {
+      display: none !important; }
+.MOD_ID_XXX .controller .prev, .controller .next {
+    background: url(http://s17.mogucdn.com/p1/150916/upload_ie2weojwmntdozdbgmzdambqhayde_20x110.png) no-repeat;
+    width: 20px;
+    height: 55px;
+    overflow: hidden;
+    text-indent: -9999px;
+    text-align: left; }
+.MOD_ID_XXX .controller .prev {
+    left: 0;
+    background-position: 0px 0px; }
+.MOD_ID_XXX .controller .next {
+    right: 0;
+    background-position: 0px -55px; }
+.MOD_ID_XXX .nav-box:hover .controller .ctrl-item {
+  display: block;
+  *display: none;
+  opacity: 1; }
+.MOD_ID_XXX .main {
+  width: 960px; }
+.MOD_ID_XXX .nav-box {
+  width: 960px; }
+.MOD_ID_XXX .nav-box .nav-box-wrapper {
+  height: 55px; }
+.MOD_ID_XXX .nav-box-static {
+  height: 55px; }
+.MOD_ID_XXX .active-arrow .center {
+  width: 138px;
+  height: 55px; }
+.MOD_ID_XXX .nav-list .nav-item {
+  width: 137px;
+  height: 55px;
+  font-size: 20px;
+  line-height: 55px; }
+.MOD_ID_XXX .nav-list .nav-item.active {
+    width: 138px;
+    color: #000; }
+.MOD_ID_XXX .nav-list .nav-item.first,
+.MOD_ID_XXX .nav-list .nav-item.last {
+    width: 411px; }
+.MOD_ID_XXX .content {
+  width: 960px;
+  margin-bottom: 30px;
+  position: relative; }
+.MOD_ID_XXX .content-body {
+  min-height: 800px; }
+.MOD_ID_XXX .content-header {
+  padding-top: 10px; }
+.MOD_ID_XXX .content-header .count-down-box {
+    width: 100%;
+    height: 40px;
+    overflow: hidden;
+    display: none;
+    box-sizing: border-box; }
+.MOD_ID_XXX .content-header .count-down-box.active {
+      display: block; }
+.MOD_ID_XXX .content-header .count-down-box .seckill-status, .content-header .count-down-box .count-down {
+      font-size: 20px;
+      color: #fff;
+      line-height: 2; }
+.MOD_ID_XXX .content-header .count-down-box .timer .h, .content-header .count-down-box .timer .s, .content-header .count-down-box .timer .d, .content-header .count-down-box .timer .m {
+      background-color: #000;
+      border: 1px solid #000;
+      color: #fff;
+      padding: 5px;
+      margin: 0 3px;
+      border-radius: 5px; }
+.MOD_ID_XXX .content-footer {
+  margin: 0 auto;
+  margin-top: 20px;
+  text-align: center; }
+.MOD_ID_XXX .content-footer .footer-btn {
+    display: inline-block;
+    background: #fdcb00;
+    height: 40px;
+    line-height: 40px;
+    width: 130px;
+    font-size: 14px;
+    font-weight: 700;
+    margin: 0 28px; }
+.MOD_ID_XXX .content-footer .footer-btn.disabled {
+      opacity: 0.7;
+      cursor: not-allowed; }
+.MOD_ID_XXX .ajax-loading {
+  position: absolute;
+  top: 100px;
+  font-size: 20px;
+  width: 100%;
+  text-align: center; }
+.MOD_ID_XXX .item-list {
+  margin-left: -20px; }
+.MOD_ID_XXX .item-list .item {
+    background: #fff;
+    width: 468px;
+    height: 216px;
+    margin: 20px 0 0 20px;
+    border: solid 1px #ccc;
+    position: relative;
+    overflow: hidden; }
+.MOD_ID_XXX .item-list .item .item-image {
+      display: block;
+      height: 190px;
+      width: 190px;
+      margin: 14px;
+      background: #fff url(http://s18.mogucdn.com/p1/150914/upload_iezwgnbqmntdcmlbgmzdambqgyyde_190x190.png) center center;
+      background-size: cover; }
+.MOD_ID_XXX .item-list .item .item-detail {
+      height: 186px;
+      width: 228px;
+      _width: 210px;
+      padding: 15px;
+      padding-left: 5px;
+      display: block;
+      overflow: hidden; }
+.MOD_ID_XXX .item-list .item .item-detail .title {
+        color: #333333;
+        font-size: 18px;
+        font-weight: bold;
+        height: 18px;
+        line-height: 1.2;
+        padding-bottom: 15px;
+        margin-bottom: 15px;
+        border-bottom: 1px dotted #ccc; }
+.MOD_ID_XXX .item-list .item .price {
+      color: #424242;
+      line-height: 32px;
+      height: 32px;
+      font-size: 14px;
+      overflow: hidden; }
+.MOD_ID_XXX .item-list .item .price .price-text {
+        border: 1px solid #f13e3a;
+        border-radius: 4px;
+        color: #f13e3a;
+        padding: 2px; }
+.MOD_ID_XXX .item-list .item .price .cur {
+        font-size: 25px;
+        font-weight: 500;
+        color: #f13e3a;
+        margin: 0 5px; }
+.MOD_ID_XXX .item-list .item .price .old {
+        font-size: 14px;
+        color: #999; }
+.MOD_ID_XXX .item-list .item.upcoming .buy-btn-box .buy-btn,
+.MOD_ID_XXX .item-list .item.unpay .buy-btn-box .buy-btn,
+.MOD_ID_XXX .item-list .item.ongoing .buy-btn-box .buy-btn,
+.MOD_ID_XXX .item-list .item.alertable .buy-btn-box .buy-btn {
+      background-color: #f13e3a;
+      border: 1px solid #f13e3a; }
+.MOD_ID_XXX .item-list .item.soldout .buy-btn-box .buy-btn {
+      background: #fff;
+      border: 1px solid #f13e3a;
+      color: #f13e3a; }
+.MOD_ID_XXX .item-list .item.soldout .soldout-icon {
+      position: absolute;
+      z-index: 1;
+      right: 0px;
+      bottom: 50px;
+      width: 79px;
+      height: 90px;
+      background: url(http://s18.mogucdn.com/p1/150915/upload_ieytmytdmvrdcntbgmzdambqmeyde_79x90.png) no-repeat;
+      background-size: auto 100%; }
+.MOD_ID_XXX .item-list .item .item-start-time {
+      font-size: 14px;
+      position: absolute;
+      bottom: 60px;
+      padding-left: 20px;
+      background: url(http://s18.mogucdn.com/p1/150917/upload_ie2deyrugu2ggmtcgmzdambqgiyde_16x15.png) no-repeat left center; }
+.MOD_ID_XXX .item-list .item .status-bar-box {
+      position: relative; }
+.MOD_ID_XXX .item-list .item .status-bar-box .status-bar {
+        border: 1px solid #f9c718;
+        border-radius: 3px;
+        width: 60%;
+        height: 10px;
+        overflow: hidden;
+        position: relative; }
+.MOD_ID_XXX .item-list .item .status-bar-box .status-bar .status-bar-progress {
+          position: absolute;
+          height: 10px;
+          width: 5%;
+          background-color: #ffde6a;
+          z-index: 1; }
+.MOD_ID_XXX .item-list .item .status-bar-box .status-bar-text {
+        position: relative;
+        z-index: 5;
+        color: #333;
+        width: 100%;
+        margin-top: 20px;
+        font-size: 14px;
+        color: #aaa; }
+.MOD_ID_XXX .item-list .item .buy-btn-box {
+      position: absolute;
+      bottom: 15px;
+      font-size: 14px;
+      overflow: hidden;
+      height: 34px; }
+.MOD_ID_XXX .item-list .item .buy-btn-box .buy-btn {
+        width: 110px;
+        height: 32px;
+        font-size: 17px;
+        line-height: 32px;
+        text-align: center;
+        border-radius: 3px;
+        text-align: center;
+        display: inline-block;
+        box-sizing: border-box;
+        color: #fff;
+        background: #f13e3a; }
+.MOD_ID_XXX .item-list .item .buy-btn-box .left-text {
+        margin-left: 15px;
+        color: #c0c0c0; }
+.MOD_ID_XXX .item-list .item .left-text {
+      font-size: 14px;
+      margin-left: 15px; }
+.MOD_ID_XXX .item-list .item .corner-tag {
+      width: 70px;
+      height: 29px;
+      position: absolute;
+      top: 0;
+      left: 5px;
+      z-index: 100; }
+.MOD_ID_XXX .item-list .item .corner-tag.haitao {
+        background: url(http://s17.mogucdn.com/p1/150911/upload_ie2dgy3fgfsdemrzgmzdambqgiyde_96x39.png) no-repeat center top;
+        background-size: 100% auto; }
+.MOD_ID_XXX .item-list .item .corner-tag.brand {
+        background: url(http://s18.mogucdn.com/p1/150912/upload_ie2giojzmyydkobzgmzdambqgiyde_70x29.png) no-repeat center top;
+        background-size: 100% auto; }
+.MOD_ID_XXX .fill_img {
+  width: 100%; }
+
+
+
+if (!window.MOGU || !MOGU.DynamicImage) {
+    /**
+     * 名称：html动态加载移除js
+     * 作者：蓝胖
+     * 时间：2014-11-19
+     */
+    ;(function($){
+    
+        // 获取浏览器UA
+        var ua = navigator.userAgent;
+        // 识别 ipad ipod ip
+        var ipad = ua.match(/(iPad).*OS\s([\d_]+)/);
+        var ipod = ua.match(/(iPod)(.*OS\s([\d_]+))?/);
+        var iphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/);
+        // 判断是否为ios系统
+        var is_ios = ipad || ipod || iphone;
+        // 判断是否为android系统
+        var is_and = ua.match(/(Android)\s+([\d.]+)/);
+        // 判断是否为手机端
+        var is_mobile = is_ios || is_and;
+        // 判断是否为ie10及以下的浏览器
+        var is_ie_old = ua.indexOf("MSIE")>0;
+        // 是否ie6浏览器
+        var is_ie6 = $.browser.msie && ($.browser.version == "6.0") && !$.support.style;
+    
+        var isChrome = ua.match(/Chrome\/([\d.]+)/);
+    
+        MOGU = window.MOGU || {};
+        // 判断浏览器是否支持webp 开始
+        MOGU.isSupportWebp = false;
+        function initCheckWebp() {
+            // 浏览器不支持，或传入图片为异常值，直接返回源地址
+            if(!isChrome) return false;
+    
+            var img = new Image();
+            img.onload = function () {
+                var result = (img.width > 0) && (img.height > 0);
+                MOGU.isSupportWebp = true;
+            };
+            img.onerror = function () {
+                MOGU.isSupportWebp = false;
+            };
+            img.src = 'data:image/webp;base64,UklGRkoAAABXRUJQVlA4WAoAAAAQAAAAAAAAAAAAQUxQSAsAAAABBxAREYiI/gcAAABWUDggGAAAADABAJ0BKgEAAQABABwlpAADcAD+/gbQAA==';
+        }
+        initCheckWebp();
+    
+        // 处理返回正确webpUrl
+        MOGU.getWebpUrl = function(imgUrl) {
+    
+            // png图片，非jpg和已经是webp的url，直接退出
+            if( imgUrl.indexOf('.jpg') < 0 || imgUrl.indexOf('.webp') > 0 || imgUrl.indexOf('.png') > 0) return imgUrl;
+    
+            // 浏览器不支持，或传入图片为异常值，直接返回源地址
+            if(!MOGU.isSupportWebp || !imgUrl || !isChrome ) {
+                // 站内原图jpg做转译
+                if( imgUrl.indexOf('.jpg_') < 0 && imgUrl.indexOf('.jpg') == (imgUrl.length - 4) ) {
+                    return imgUrl + '_999x999.v1c0.jpg';
+                }
+                return imgUrl;
+            }
+    
+            // 对站内二次转译的jpg图片做格式变化
+            if( imgUrl.indexOf('.jpg_') > 0 ) {
+                var imgArr = imgUrl.split('.');
+                // 最后判断一次是站内jpg
+                if( imgArr[imgArr.length-1] == 'jpg' ) {
+                    imgArr[imgArr.length-1] = 'webp';
+                    return imgArr.join('.');
+                }
+            }
+    
+            // 站内原图jpg做转译
+            if( imgUrl.indexOf('.jpg_') < 0 && imgUrl.indexOf('.jpg') == (imgUrl.length - 4) ) {
+                return imgUrl + '_999x999.v1c0.webp';
+            }
+    
+            return imgUrl;
+        };
+        // 获取随机字符串
+        function randomString(len) {
+            len = len || 32;
+            // 默认去掉了容易混淆的字符oOLl,9gq,Vv,Uu,I1
+            var chars = 'abcdefhijkmnprstwxyz2345678';
+            var maxPos = chars.length;
+            var pwd = '';
+            for (i = 0; i < len; i++) {
+                pwd += chars.charAt(Math.floor(Math.random() * maxPos));
+            }
+            return pwd;
+        }
+    
+        // 获取当前本地时间
+        var _now = Date.now ||
+        function() {
+            return new Date().getTime();
+        };
+    
+        // 滚动触发间隔时间 ，ie10以下600ms，其他200ms
+        var scrollIndTime = is_ie_old ? 600:200;
+    
+    
+        // 动态加载移除图片对象
+        var DynamicImage = function(config){
+    
+            this.opts = $.extend({}, this.defaults, config);
+    
+            this.firstCheck = true;
+    
+            this.init();
+        };
+    
+        DynamicImage.prototype = {
+            init : function(){
+                var that = this;
+    
+                var timeFlag = _now();
+                $(window).scroll(function(event) {
+                    var now = _now();
+                    // 间隔200ms触发确认机制
+                    if( now - timeFlag > scrollIndTime ) {
+                        timeFlag = now;
+                        that.checkImages();
+                    }
+    
+                });
+    
+            },
+            checkImages : function(checkBox) {
+                // checkBox默认值为body
+                var myCheckBox = checkBox ? checkBox : $('body');
+    
+                var self = this;
+    
+                // 初次延时加载
+                if(self.firstCheck) {
+    
+                    self.firstCheck = false;
+                    setTimeout(function(){
+                        self.checkImages(checkBox);
+                    },0);
+    
+                    return;
+                }
+    
+                // 获取图片显示区域
+                var scrollTop = (document.documentElement.scrollTop || document.body.scrollTop);
+                var acDistance = self.opts.showDistance;
+    
+                // 图片显示区域最小高度和最大高度
+                var activeTop = scrollTop - acDistance;
+                var activeBot = scrollTop + (document.documentElement.clientHeight || document.body.clientHeight) + acDistance;
+    
+                // 获取动态图片容器对象
+                var dyImages = myCheckBox.find('.'+self.opts.objsClassName);
+                var imgNum = dyImages.length;
+    
+                // 循环处理倒计时对象
+                for( var i = 0 ; i < imgNum ; i++ ){
+                    var imageBox = dyImages.eq(i);
+    
+                    // 如果url地址为空直接跳出
+                    if(!imageBox.attr('img-src')) continue;
+    
+                    var innerImg = imageBox.find(".J_dynamic_img");
+                    var isLoading = imageBox.hasClass('J_loading');
+    
+                    // 判断元素是否显示
+                    var isShow = imageBox.css('display') != 'none' && imageBox.css('visibility') != 'hidden' && imageBox.css('opacity') != 0 && imageBox[0].offsetWidth;
+    
+                    // 获取图片父级容器的顶部位置和底部位置
+                    var imageTop = imageBox.offset().top;
+                    var imageBot = imageTop+imageBox.height();
+    
+                    // 判断图片是否在激活区域
+                    var isInActive = imageBot >= activeTop && imageTop <= activeBot;
+    
+                    // 离开激活区域是否要移除-----默认值为yes
+                    var isNeedRemove = imageBox.attr('need-remove') ? imageBox.attr('need-remove') : 'yes';
+    
+                    if( isShow && isInActive ) {
+                        // 插入图片
+                        if(!innerImg.length && !isLoading ) {
+                            imageBox.addClass('J_loading');
+                            self.loadingImage(imageBox);
+                        }
+                    } else if( isNeedRemove == 'yes' ) {
+                        // 删除图片
+                        if( innerImg.length || isLoading ) {
+                            imageBox.removeClass('J_loading');
+                            innerImg.remove();
+                        }
+                    }
+                }
+            },
+            loadingImage : function(imageBox){
+    
+                var img = new Image();
+    
+                var urlOrg = imageBox.attr('img-src');
+                img.src = MOGU.getWebpUrl(urlOrg);
+    
+                if( img.complete ) {
+                    // 判断图片是否要插入
+                    if( imageBox.hasClass('J_loading') ) {
+                        // 移除正在加载flag
+                        imageBox.removeClass('J_loading');
+    
+                        // 判断是手机还是pc
+                        if( !is_mobile && !is_ie6 ) {
+                            imageBox.append('<img class="J_dynamic_img fill_img" style="display:none;" src="'+img.src+'" alt=""/>');
+                            imageBox.find('.J_dynamic_img').fadeIn(300);
+                        } else {
+                            imageBox.append('<img class="J_dynamic_img fill_img" src="'+img.src+'" alt=""/>');
+                        }
+                    }
+    
+                } else {
+                    img.onload = function () {
+                        // 判断图片是否要插入
+                        if( imageBox.hasClass('J_loading') ) {
+                            // 移除正在加载flag
+                            imageBox.removeClass('J_loading');
+    
+                            // 给ios加动画
+                            var style = is_ios ? '-webkit-animation: fadeIn .2s ease both 0s; animation: fadeIn .2s ease both 0s;':'';
+    
+                            // 判断是手机还是pc
+                            if( !is_mobile && !is_ie6 ) {
+                                imageBox.append('<img class="J_dynamic_img fill_img" style="display:none;" src="'+img.src+'" alt=""/>');
+                                imageBox.find('.J_dynamic_img').fadeIn(300);
+                            } else {
+                                imageBox.append('<img class="J_dynamic_img fill_img" style="'+style+'" src="'+img.src+'" alt=""/>');
+                            }
+                        }
+                    };
+                }
+    
+            },
+            defaults : {
+                objsClassName : 'J_dynamic_imagebox',// 动态图片父容器
+                showDistance : 0// 图片显示区域距理屏幕的高度
+            }
+        };
+    
+        window.MOGU = window.MOGU || {};
+        MOGU.DynamicImage = DynamicImage;
+    
+    
+    })(window.jQuery||window.Zepto);
+}
+
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
+var util = require('./util'),
+  sprintf = require('sprintf-js').sprintf;
+
+require('./polyfill');
+
+var expando = util.expando();
+
+// 倒计时组件问题：（两种解决方案）
+// 1. 后端传一个目标时间，由前端来计算剩余时间，进而实现倒计时。（依赖于客户端系统时间，不可靠）
+// 2. 后端直接传剩余时间，此时网络的延时加载会导致 js 代码处理的剩余时间比实际的剩余时间要略微长一点。（如果碰到网络特别慢之类的情况，延时误差就会累积）
+function Timer(options) {
+  this._startTime = (new Date()).getTime();
+  this._nodes = null;
+  this.options = $.extend({}, Timer.DEFAULTS, options);
+}
+Timer.prototype = {
+  constructor: Timer,
+  init: function () {
+    this._nodes = $(this.options.selector);
+
+    clearTimeout(this._timeout);
+    this._refresh();
+    // TODO: bind is not supported by IE8-
+    this._timeout = setInterval(this._refresh.bind(this), this.options.interval);
+  },
+  update: function () {
+    this._nodes = $(this.options.selector);
+  },
+  // this will be called in time interval
+  _refresh: function () {
+    var now = (new Date()).getTime(),
+      $nodes = this._nodes;
+
+    // if we only render the timers under view, then other unseen part will do nothing
+    if (this.options.viewonly) {
+      $nodes = util.viewfilter($nodes, this.options.offset, null, (document.documentElement.scrollTop || document.body.scrollTop));
+    }
+
+    var me = this;
+    $nodes.each(function () {
+      var $this = $(this),
+        options = me.options,
+        left = $this.data(options.datattr); // ms
+
+      if (typeof left === 'undefined' || $this.data(expando)) return;
+
+      left -= (now - me._startTime);
+      // TODO: adjust the threshold
+      if (left <= 300) {
+        left = 0;
+        $this.html(getHTML(left, options));
+        if (options.finish) {  // 到点以后执行回调函数，如果没有，就一直显示0 0 0
+          options.finish($this);
+        }
+        $this.data(expando, true);
+        return;
+      }
+      $this.html(getHTML(left, options));
+    });
+  }
+};
+
+function getHTML(left, options) {
+  var seconds = left / 1000;
+  var days = Math.floor(seconds / (24 * 60 * 60)); seconds -= days * (24 * 60 * 60);
+  var hours = Math.floor(seconds / (60 * 60)); seconds -= hours * (60 * 60);
+  var minutes = Math.floor(seconds / (60)); seconds -= minutes * (60);
+  seconds = Math.floor(seconds);
+
+  var timeText = '';
+  if (options.noday) {
+    hours += 24 * days;
+    timeText = sprintf(options.format, hours, minutes, seconds);
+  } else {
+    timeText = sprintf(options.format, days, hours, minutes, seconds);
+  }
+  return timeText;
+}
+
+Timer.DEFAULTS = {
+  viewonly: false,
+  interval: 500,
+  offset: 300,
+  noday: false,
+  selector: '.timer',
+  datattr: 'time-left',
+  format: '%02d天%02d时%02d分%02d秒'
+};
+
+Timer.VERSION = '0.0.2';
+
+module.exports = Timer;
+
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../common/module-timer.js","/../common")
+},{"./polyfill":2,"./util":3,"buffer":6,"oMfpAn":9,"sprintf-js":10}],2:[function(require,module,exports){
+(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
+// polyfill for bind to fix bind not support IE8-
+if (!Function.prototype.bind) {
+  Function.prototype.bind = function(oThis) {
+    if (typeof this !== 'function') {
+      // closest thing possible to the ECMAScript 5
+      // internal IsCallable function
+      throw new TypeError('Function.prototype.bind - what is trying to be bound is not callable');
+    }
+
+    var aArgs   = Array.prototype.slice.call(arguments, 1),
+        fToBind = this,
+        fNOP    = function() {},
+        fBound  = function() {
+          return fToBind.apply(this instanceof fNOP
+                 ? this
+                 : oThis,
+                 aArgs.concat(Array.prototype.slice.call(arguments)));
+        };
+
+    if (this.prototype) {
+      // native functions don't have a prototype
+      fNOP.prototype = this.prototype;
+    }
+    fBound.prototype = new fNOP();
+
+    return fBound;
+  };
+}
+
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../common/polyfill.js","/../common")
+},{"buffer":6,"oMfpAn":9}],3:[function(require,module,exports){
+(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
+// var arr = ['abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'];
+function expando() {
+  return Math.random().toString().replace('.', '');
+}
+
+// 注：处理的节点内容不能为空，否则会造成在视图中但也会判定为 false，最好在其中填充一个初始值
+// 可以在外部计算scrollTop并作为参数传入，这样可以避免在循环内大量进行页面 layout 操作以提升性能
+function viewfilter($nodes, bound, callback, scrollTop) {
+  bound = bound || 600;
+
+  if (typeof scrollTop === 'undefined') {
+    scrollTop = (document.documentElement.scrollTop || document.body.scrollTop);
+  }
+  var scrollBottom = scrollTop + $(window).height();
+
+  scrollTop -= bound;
+  scrollBottom += bound;
+
+  var filtered = [];
+  $nodes.each(function () {
+    var $this = $(this);
+    if ($this.css('display') === 'none' ||
+       $this.css('visibility') === 'hidden' ||
+       $this.css('opacity') === 0) {
+      return;
+    }
+    var offset = $this.offset(),
+      top = offset.top,
+      bottom = top + (offset.height || $this.height());
+    if (!offset.width && !$this.width()) {
+      return;
+    }
+
+    if (bottom < scrollTop || top > scrollBottom) {
+      if (callback) {
+        callback($this, false);
+      }
+      return;   // false denotes not in view
+    }
+    if (callback) {
+      callback($this, true);
+    }
+    filtered.push(this);
+  });
+  return $(filtered);
+}
+
+function throttle(fn, delay, context) {
+  var tic = null;
+  return function () {
+    var toc = +new Date();
+    if (tic && (toc - tic) < delay) return;
+    tic = toc;
+    context = context || this;
+    fn.apply(context, arguments);
+  };
+}
+
+module.exports = {
+  expando: expando,
+  viewfilter: viewfilter,
+  throttle: throttle
+};
+
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../common/util.js","/../common")
+},{"buffer":6,"oMfpAn":9}],4:[function(require,module,exports){
+(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
+require('./raf');
+require('../common/polyfill');
+
+var Timer = require('../common/module-timer');
+var timer = new Timer({
+    format: '<span class="d">%02d</span>天<span class="h">%02d</span>:<span class="m">%02d</span>:<span class="s">%02d</span>',
+    interval: 1000,
+    // noday: true,
+    selector: '.timer',
+    viewonly: true
+});
+
+var vendor = {};
+function support(prop) {
+    if (typeof vendor[prop] !== 'undefined') return vendor[prop];
+
+    var b = document.body || document.documentElement,
+        s = b.style;
+
+    if (typeof s[prop] == 'string') { vendor[prop] = true; return true; }
+
+    // Tests for vendor specific prop
+    var v = ['Moz', 'webkit', 'Webkit', 'Khtml', 'O', 'ms'];
+    prop = prop.charAt(0).toUpperCase() + prop.substr(1);
+
+    for (var i=0; i<v.length; i++) {
+        if (typeof s[v[i] + prop] == 'string') { vendor[prop] = true; return true; }
+    }
+
+    vendor[prop] = false;
+    return false;
+}
+
+var is_ie6 = (/\bMSIE 6/.test(navigator.userAgent) && !window.opera);
+support('transition');
+// console.log(support('transform'))
+
+$(function () {
+    var ITEM_TAG = {
+        '4': 'brand',
+        '8': 'haitao'
+    };
+    timer.init();
+
+    var dynamicImage = new MOGU.DynamicImage({
+        'objsClassName': 'J_dynamic_imagebox',
+        showDistance: $(window).height()
+    });
+    var $navbox = $('.nav-box'),
+        $navlist = $navbox.find('.nav-list'),
+        $navitem = $navlist.find('.nav-item');
+
+    var itemwidth = $navitem.not('.active, .first, .last').width();
+
+    $('body').on('click', '.nav-item', function () {
+        var $this = $(this),
+            index = $this.index();
+
+        // 忽略第一个无效的空白及最后一个空白、高亮区
+        index -= 1;
+        if (index < 0 || $this.hasClass('active')) return;
+        if (index >= $navitem.length - 2) return;
+
+        highlight(index);
+    });
+    $('body').on('click', '.controller .ctrl-item, .content-footer .footer-btn', function () {
+        var $this = $(this),
+            index = $navlist.find('.nav-item.active').index() - 1;
+
+        if ($this.hasClass('prev') && index > 0) {
+            highlight(index - 1);
+        } else if ($this.hasClass('next') && index < $navitem.length - 3) {
+            highlight(index + 1);
+        }
+    });
+
+    // 导航条需要置顶
+    var navTimeout = null,
+        navTop = $navbox.offset().top;
+
+    // TODO: 以下代码在resize窗口时会有BUG
+    if (!is_ie6) {
+        // TODO: add a throttle function for callback?
+        $(window).on('scroll', function () {
+            var scrollTop = $(document).scrollTop(),
+                $navboxstatic = $navbox.siblings('.nav-box-static');
+
+            if (scrollTop > navTop) {
+                $navboxstatic.css({
+                    display: 'block'
+                });
+                $navbox.css({
+                    position: 'fixed',
+                    top: 0
+                });
+            } else {
+                $navboxstatic.css({
+                    display: 'none'
+                });
+                $navbox.css({
+                    position: 'relative'
+                });
+            }
+        });
+    }
+
+    // TODO：以后需要作 vendor 检测，对于现代浏览器，使用 translate3d/translate
+    function scrollLeft($scroller, offsetLeft) {
+        if (!vendor.transition) {
+            $scroller.animate({
+                'left': -offsetLeft,
+                'easing': 'linear',
+                'duration': 300
+            });
+        } else {
+            $scroller.css({
+                'left': -offsetLeft
+            })
+        }
+    }
+
+    var isLoading = {},
+        $loading = $('.content .ajax-loading');
+    if ($loading.length <= 0) {
+        $loading = $('<div class="ajax-loading">正在加载中...</div>');
+        $('.content').append($loading);
+    }
+    function highlight(index) {
+        $navitem.eq(index + 1).addClass('active').siblings().removeClass('active');
+        $('.content-header .count-down-box').eq(index).addClass('active').siblings().removeClass('active');
+
+        // 控制按钮 - 状态显示
+        if (index === 0) {
+            $('.content-footer .footer-btn.prev').addClass('disabled');
+            $('.controller .ctrl-item.prev').addClass('disabled');
+        } else {
+            $('.content-footer .footer-btn.prev').removeClass('disabled');
+            $('.controller .ctrl-item.prev').removeClass('disabled');
+        }
+        if (index === $navitem.length - 3) {
+            $('.content-footer .footer-btn.next').addClass('disabled');
+            $('.controller .ctrl-item.next').addClass('disabled');
+        } else {
+            $('.content-footer .footer-btn.next').removeClass('disabled');
+            $('.controller .ctrl-item.next').removeClass('disabled');
+        }
+        scrollLeft($navlist, itemwidth * index);
+        if ($(document).scrollTop() > navTop) {
+            $(document).scrollTop(navTop);
+        }
+
+        // 已经存在
+        if ($('.content-body .item-list#item-list-' + index).length > 0) {
+            $loading.hide();
+
+            $('.content-body .item-list#item-list-' + index).show().siblings().hide();
+            dynamicImage.checkImages();
+            return;
+        }
+
+        // 发 ajax，并缓存
+        var $navItem = $navlist.find('.nav-item.active');
+        $('.content-body .item-list').hide();
+
+        // 显示正在加载中
+        $loading.show()
+
+        if (isLoading[index]) {
+            return;
+        }
+        isLoading[index] = true;
+        $.ajax({
+            url: '/fastbuy/act/1111/getList',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                eventTime: $navItem.data('timestamp'),
+                topType: $navItem.data('top-type') || '',
+                topId: $navItem.data('top-id') || '',
+                time: $('.top-banner').data('time') // 测试用，只对小仙小侠号有效
+            },
+            success: function (res) {
+                isLoading[index] = false;
+                if (res.status.code !== 1001) {
+                    // alert(res.status.msg);
+                    return;
+                }
+                var listHTML = [
+                    '<div class="item-list clearfix" id="item-list-' + index + '" style="display: none;">',
+                    buildItemsHTML(res.result.list),
+                    '</div>'
+                ].join('');
+                $('.content-body').append(listHTML);
+
+                var activeIndex = $navlist.find('.nav-item.active').index() - 1,
+                    $activeItemList = $('.content-body').find('#item-list-' + activeIndex);
+                if ($activeItemList.length > 0 && index === activeIndex) {
+                    // 隐藏加载显示
+                    $loading.hide();
+                    $activeItemList.show();
+                }
+                requestAnimationFrame(function () {
+                    dynamicImage.checkImages();
+                });
+            }
+        });
+    }
+    function buildItemsHTML(list) {
+        var item = null,
+            resHTML = '',
+            buttonTexts = {
+                'alertable': '即将开始',
+                'upcoming': '即将开始',
+                'ongoing': '立即抢购',
+                'soldout': '原价购买',
+                'unpay': '点击查看'
+            };
+
+        for (var i = 0, len = list.length; i < len; i++) {
+            item = list[i];
+
+            var priceText = item.type === 1 ? '秒杀价' : '快抢价';
+
+            // 双十一开启 ---- 时间介于11.10 - 11.13号零点之间
+            if (item.startDate >= 1447084800 && item.startDate < 1447344000) {
+                priceText = '11.11价';
+            }
+
+            if (item.status === 'alertable') item.status = 'upcoming';
+
+            if (item.left === 0 && item.status === 'ongoing') {
+              item.status = 'soldout';
+            }
+            item.statusText = '已抢' + (item.total - item.left) + '件';
+            item.percent = (1 - item.left / item.total) * 100;
+
+            var status = item.status;
+            if (status === 'alertable' || status === 'upcoming') {
+              item.statusText = '库存' + item.left + '件';
+              if (item.follows > 10000) {
+                item.follows = (item.follows / 10000).toFixed(2) + '万';
+              }
+              item.leftText = (item.follows || 0) + '人关注';
+            } else if (status === 'unpay') {
+              item.statusText = '还有' + item.unPay + '人未付款';
+              item.leftText = '仅剩0件';
+            } else {
+              item.leftText = '仅剩' + item.left + '件';
+            }
+
+            resHTML += [
+                '<div data-rush-id="' + item.rushId + '" data-id="' + item.topId + '" class="item fl clearfix ' + item.status + '">',
+                    // 商品加角标
+                    typeof ITEM_TAG[item.tag] !== 'undefined' ? '<div class="corner-tag ' + ITEM_TAG[item.tag] + '"></div>' : '',
+                    '<a href="' + item.url + '" target="_blank" class="item-image J_dynamic_imagebox fl" need-remove="no" img-src="' + item.image + '" title="' + item.title + '">',
+                    '</a>',
+                    // TODO: add image tag for 11.11
+                    '<a href="' + item.url + '" target="_blank" class="item-detail fl yahei">',
+                        '<div class="title text_hide">' + item.title + '</div>',
+                        '<div class="price text_hide">',
+                            '<span class="price-text">' + priceText + '</span><span class="cur">¥' + item.curPrice + '</span><del class="old">¥' + item.oldPrice + '</del>',
+                        '</div>',
+                        // (status === 'upcoming' ?
+                        // ('<div class="status-text">已售' + item.total + '件</div>') :
+                        ('<div class="status-bar-box">' +
+                          '<div class="status-bar-text text_hide">' + item.statusText + '</div>' +
+                          '<div class="status-bar">' +
+                            '<div class="status-bar-progress" style="width: ' + item.percent + '%;"></div>' +
+                          '</div>' +
+                        '</div>') +
+                        '<div class="buy-btn-box">' +
+                          '<span class="buy-btn">' + buttonTexts[item.status] + '</span>' +
+                          ('<span class="left-text">' + (item.leftText || '') + '</span>') +
+                        '</div>',
+                    '</a>',
+                    (status === 'soldout' ? '<div class="soldout-icon"></div>' : ''),
+                '</div>'
+            ].join('');
+        }
+        return resHTML;
+    }
+
+    if (typeof window.highlightIndex === 'undefined') {
+        window.highlightIndex = 0;
+    }
+
+    highlight(highlightIndex);
+
+    // 统计点击数
+    $('body').on('click', '.item.upcoming, .item.alertable', function () {
+      var $this = $(this),
+          rushId = $this.data('rush-id');
+      $.ajax({
+          url: '/fastbuy/list/follow',
+          data: {
+              rushId: rushId
+          },
+          type: 'POST'
+      });
+    });
+});
+
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_8356dba5.js","/")
+},{"../common/module-timer":1,"../common/polyfill":2,"./raf":5,"buffer":6,"oMfpAn":9}],5:[function(require,module,exports){
+(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
+// FORBIDEN URL
+// FORBIDEN URL
+
+// requestAnimationFrame polyfill by Erik Möller. fixes from Paul Irish and Tino Zijdel
+
+// MIT license
+
+(function() {
+    var lastTime = 0;
+    var vendors = ['ms', 'moz', 'webkit', 'o'];
+    for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+        window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
+        window.cancelAnimationFrame = window[vendors[x]+'CancelAnimationFrame']
+                                   || window[vendors[x]+'CancelRequestAnimationFrame'];
+    }
+
+    if (!window.requestAnimationFrame)
+        window.requestAnimationFrame = function(callback, element) {
+            var currTime = new Date().getTime();
+            var timeToCall = Math.max(0, 16 - (currTime - lastTime));
+            var id = window.setTimeout(function() { callback(currTime + timeToCall); },
+              timeToCall);
+            lastTime = currTime + timeToCall;
+            return id;
+        };
+
+    if (!window.cancelAnimationFrame)
+        window.cancelAnimationFrame = function(id) {
+            clearTimeout(id);
+        };
+}());
+
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/raf.js","/")
+},{"buffer":6,"oMfpAn":9}],6:[function(require,module,exports){
+(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
+/*!
+ * The buffer module from node.js, for the browser.
+ *
+ * @author   Feross Aboukhadijeh <feross@feross.org> <FORBIDEN URL
+ * @license  MIT
+ */
+
+var base64 = require('base64-js')
+var ieee754 = require('ieee754')
+
+exports.Buffer = Buffer
+exports.SlowBuffer = Buffer
+exports.INSPECT_MAX_BYTES = 50
+Buffer.poolSize = 8192
+
+/**
+ * If `Buffer._useTypedArrays`:
+ *   === true    Use Uint8Array implementation (fastest)
+ *   === false   Use Object implementation (compatible down to IE6)
+ */
+Buffer._useTypedArrays = (function () {
+  // Detect if browser supports Typed Arrays. Supported browsers are IE 10+, Firefox 4+,
+  // Chrome 7+, Safari 5.1+, Opera 11.6+, iOS 4.2+. If the browser does not support adding
+  // properties to `Uint8Array` instances, then that's the same as no `Uint8Array` support
+  // because we need to be able to add all the node Buffer API methods. This is an issue
+  // in Firefox 4-29. Now fixed: FORBIDEN URL
+  try {
+    var buf = new ArrayBuffer(0)
+    var arr = new Uint8Array(buf)
+    arr.foo = function () { return 42 }
+    return 42 === arr.foo() &&
+        typeof arr.subarray === 'function' // Chrome 9-10 lack `subarray`
+  } catch (e) {
+    return false
+  }
+})()
+
+/**
+ * Class: Buffer
+ * =============
+ *
+ * The Buffer constructor returns instances of `Uint8Array` that are augmented
+ * with function properties for all the node `Buffer` API functions. We use
+ * `Uint8Array` so that square bracket notation works as expected -- it returns
+ * a single octet.
+ *
+ * By augmenting the instances, we can avoid modifying the `Uint8Array`
+ * prototype.
+ */
+function Buffer (subject, encoding, noZero) {
+  if (!(this instanceof Buffer))
+    return new Buffer(subject, encoding, noZero)
+
+  var type = typeof subject
+
+  // Workaround: node's base64 implementation allows for non-padded strings
+  // while base64-js does not.
+  if (encoding === 'base64' && type === 'string') {
+    subject = stringtrim(subject)
+    while (subject.length % 4 !== 0) {
+      subject = subject + '='
+    }
+  }
+
+  // Find the length
+  var length
+  if (type === 'number')
+    length = coerce(subject)
+  else if (type === 'string')
+    length = Buffer.byteLength(subject, encoding)
+  else if (type === 'object')
+    length = coerce(subject.length) // assume that object is array-like
+  else
+    throw new Error('First argument needs to be a number, array or string.')
+
+  var buf
+  if (Buffer._useTypedArrays) {
+    // Preferred: Return an augmented `Uint8Array` instance for best performance
+    buf = Buffer._augment(new Uint8Array(length))
+  } else {
+    // Fallback: Return THIS instance of Buffer (created by `new`)
+    buf = this
+    buf.length = length
+    buf._isBuffer = true
+  }
+
+  var i
+  if (Buffer._useTypedArrays && typeof subject.byteLength === 'number') {
+    // Speed optimization -- use set if we're copying from a typed array
+    buf._set(subject)
+  } else if (isArrayish(subject)) {
+    // Treat array-ish objects as a byte array
+    for (i = 0; i < length; i++) {
+      if (Buffer.isBuffer(subject))
+        buf[i] = subject.readUInt8(i)
+      else
+        buf[i] = subject[i]
+    }
+  } else if (type === 'string') {
+    buf.write(subject, 0, encoding)
+  } else if (type === 'number' && !Buffer._useTypedArrays && !noZero) {
+    for (i = 0; i < length; i++) {
+      buf[i] = 0
+    }
+  }
+
+  return buf
+}
+
+// STATIC METHODS
+// ==============
+
+Buffer.isEncoding = function (encoding) {
+  switch (String(encoding).toLowerCase()) {
+    case 'hex':
+    case 'utf8':
+    case 'utf-8':
+    case 'ascii':
+    case 'binary':
+    case 'base64':
+    case 'raw':
+    case 'ucs2':
+    case 'ucs-2':
+    case 'utf16le':
+    case 'utf-16le':
+      return true
+    default:
+      return false
+  }
+}
+
+Buffer.isBuffer = function (b) {
+  return !!(b !== null && b !== undefined && b._isBuffer)
+}
+
+Buffer.byteLength = function (str, encoding) {
+  var ret
+  str = str + ''
+  switch (encoding || 'utf8') {
+    case 'hex':
+      ret = str.length / 2
+      break
+    case 'utf8':
+    case 'utf-8':
+      ret = utf8ToBytes(str).length
+      break
+    case 'ascii':
+    case 'binary':
+    case 'raw':
+      ret = str.length
+      break
+    case 'base64':
+      ret = base64ToBytes(str).length
+      break
+    case 'ucs2':
+    case 'ucs-2':
+    case 'utf16le':
+    case 'utf-16le':
+      ret = str.length * 2
+      break
+    default:
+      throw new Error('Unknown encoding')
+  }
+  return ret
+}
+
+Buffer.concat = function (list, totalLength) {
+  assert(isArray(list), 'Usage: Buffer.concat(list, [totalLength])\n' +
+      'list should be an Array.')
+
+  if (list.length === 0) {
+    return new Buffer(0)
+  } else if (list.length === 1) {
+    return list[0]
+  }
+
+  var i
+  if (typeof totalLength !== 'number') {
+    totalLength = 0
+    for (i = 0; i < list.length; i++) {
+      totalLength += list[i].length
+    }
+  }
+
+  var buf = new Buffer(totalLength)
+  var pos = 0
+  for (i = 0; i < list.length; i++) {
+    var item = list[i]
+    item.copy(buf, pos)
+    pos += item.length
+  }
+  return buf
+}
+
+// BUFFER INSTANCE METHODS
+// =======================
+
+function _hexWrite (buf, string, offset, length) {
+  offset = Number(offset) || 0
+  var remaining = buf.length - offset
+  if (!length) {
+    length = remaining
+  } else {
+    length = Number(length)
+    if (length > remaining) {
+      length = remaining
+    }
+  }
+
+  // must be an even number of digits
+  var strLen = string.length
+  assert(strLen % 2 === 0, 'Invalid hex string')
+
+  if (length > strLen / 2) {
+    length = strLen / 2
+  }
+  for (var i = 0; i < length; i++) {
+    var byte = parseInt(string.substr(i * 2, 2), 16)
+    assert(!isNaN(byte), 'Invalid hex string')
+    buf[offset + i] = byte
+  }
+  Buffer._charsWritten = i * 2
+  return i
+}
+
+function _utf8Write (buf, string, offset, length) {
+  var charsWritten = Buffer._charsWritten =
+    blitBuffer(utf8ToBytes(string), buf, offset, length)
+  return charsWritten
+}
+
+function _asciiWrite (buf, string, offset, length) {
+  var charsWritten = Buffer._charsWritten =
+    blitBuffer(asciiToBytes(string), buf, offset, length)
+  return charsWritten
+}
+
+function _binaryWrite (buf, string, offset, length) {
+  return _asciiWrite(buf, string, offset, length)
+}
+
+function _base64Write (buf, string, offset, length) {
+  var charsWritten = Buffer._charsWritten =
+    blitBuffer(base64ToBytes(string), buf, offset, length)
+  return charsWritten
+}
+
+function _utf16leWrite (buf, string, offset, length) {
+  var charsWritten = Buffer._charsWritten =
+    blitBuffer(utf16leToBytes(string), buf, offset, length)
+  return charsWritten
+}
+
+Buffer.prototype.write = function (string, offset, length, encoding) {
+  // Support both (string, offset, length, encoding)
+  // and the legacy (string, encoding, offset, length)
+  if (isFinite(offset)) {
+    if (!isFinite(length)) {
+      encoding = length
+      length = undefined
+    }
+  } else {  // legacy
+    var swap = encoding
+    encoding = offset
+    offset = length
+    length = swap
+  }
+
+  offset = Number(offset) || 0
+  var remaining = this.length - offset
+  if (!length) {
+    length = remaining
+  } else {
+    length = Number(length)
+    if (length > remaining) {
+      length = remaining
+    }
+  }
+  encoding = String(encoding || 'utf8').toLowerCase()
+
+  var ret
+  switch (encoding) {
+    case 'hex':
+      ret = _hexWrite(this, string, offset, length)
+      break
+    case 'utf8':
+    case 'utf-8':
+      ret = _utf8Write(this, string, offset, length)
+      break
+    case 'ascii':
+      ret = _asciiWrite(this, string, offset, length)
+      break
+    case 'binary':
+      ret = _binaryWrite(this, string, offset, length)
+      break
+    case 'base64':
+      ret = _base64Write(this, string, offset, length)
+      break
+    case 'ucs2':
+    case 'ucs-2':
+    case 'utf16le':
+    case 'utf-16le':
+      ret = _utf16leWrite(this, string, offset, length)
+      break
+    default:
+      throw new Error('Unknown encoding')
+  }
+  return ret
+}
+
+Buffer.prototype.toString = function (encoding, start, end) {
+  var self = this
+
+  encoding = String(encoding || 'utf8').toLowerCase()
+  start = Number(start) || 0
+  end = (end !== undefined)
+    ? Number(end)
+    : end = self.length
+
+  // Fastpath empty strings
+  if (end === start)
+    return ''
+
+  var ret
+  switch (encoding) {
+    case 'hex':
+      ret = _hexSlice(self, start, end)
+      break
+    case 'utf8':
+    case 'utf-8':
+      ret = _utf8Slice(self, start, end)
+      break
+    case 'ascii':
+      ret = _asciiSlice(self, start, end)
+      break
+    case 'binary':
+      ret = _binarySlice(self, start, end)
+      break
+    case 'base64':
+      ret = _base64Slice(self, start, end)
+      break
+    case 'ucs2':
+    case 'ucs-2':
+    case 'utf16le':
+    case 'utf-16le':
+      ret = _utf16leSlice(self, start, end)
+      break
+    default:
+      throw new Error('Unknown encoding')
+  }
+  return ret
+}
+
+Buffer.prototype.toJSON = function () {
+  return {
+    type: 'Buffer',
+    data: Array.prototype.slice.call(this._arr || this, 0)
+  }
+}
+
+// copy(targetBuffer, targetStart=0, sourceStart=0, sourceEnd=buffer.length)
+Buffer.prototype.copy = function (target, target_start, start, end) {
+  var source = this
+
+  if (!start) start = 0
+  if (!end && end !== 0) end = this.length
+  if (!target_start) target_start = 0
+
+  // Copy 0 bytes; we're done
+  if (end === start) return
+  if (target.length === 0 || source.length === 0) return
+
+  // Fatal error conditions
+  assert(end >= start, 'sourceEnd < sourceStart')
+  assert(target_start >= 0 && target_start < target.length,
+      'targetStart out of bounds')
+  assert(start >= 0 && start < source.length, 'sourceStart out of bounds')
+  assert(end >= 0 && end <= source.length, 'sourceEnd out of bounds')
+
+  // Are we oob?
+  if (end > this.length)
+    end = this.length
+  if (target.length - target_start < end - start)
+    end = target.length - target_start + start
+
+  var len = end - start
+
+  if (len < 100 || !Buffer._useTypedArrays) {
+    for (var i = 0; i < len; i++)
+      target[i + target_start] = this[i + start]
+  } else {
+    target._set(this.subarray(start, start + len), target_start)
+  }
+}
+
+function _base64Slice (buf, start, end) {
+  if (start === 0 && end === buf.length) {
+    return base64.fromByteArray(buf)
+  } else {
+    return base64.fromByteArray(buf.slice(start, end))
+  }
+}
+
+function _utf8Slice (buf, start, end) {
+  var res = ''
+  var tmp = ''
+  end = Math.min(buf.length, end)
+
+  for (var i = start; i < end; i++) {
+    if (buf[i] <= 0x7F) {
+      res += decodeUtf8Char(tmp) + String.fromCharCode(buf[i])
+      tmp = ''
+    } else {
+      tmp += '%' + buf[i].toString(16)
+    }
+  }
+
+  return res + decodeUtf8Char(tmp)
+}
+
+function _asciiSlice (buf, start, end) {
+  var ret = ''
+  end = Math.min(buf.length, end)
+
+  for (var i = start; i < end; i++)
+    ret += String.fromCharCode(buf[i])
+  return ret
+}
+
+function _binarySlice (buf, start, end) {
+  return _asciiSlice(buf, start, end)
+}
+
+function _hexSlice (buf, start, end) {
+  var len = buf.length
+
+  if (!start || start < 0) start = 0
+  if (!end || end < 0 || end > len) end = len
+
+  var out = ''
+  for (var i = start; i < end; i++) {
+    out += toHex(buf[i])
+  }
+  return out
+}
+
+function _utf16leSlice (buf, start, end) {
+  var bytes = buf.slice(start, end)
+  var res = ''
+  for (var i = 0; i < bytes.length; i += 2) {
+    res += String.fromCharCode(bytes[i] + bytes[i+1] * 256)
+  }
+  return res
+}
+
+Buffer.prototype.slice = function (start, end) {
+  var len = this.length
+  start = clamp(start, len, 0)
+  end = clamp(end, len, len)
+
+  if (Buffer._useTypedArrays) {
+    return Buffer._augment(this.subarray(start, end))
+  } else {
+    var sliceLen = end - start
+    var newBuf = new Buffer(sliceLen, undefined, true)
+    for (var i = 0; i < sliceLen; i++) {
+      newBuf[i] = this[i + start]
+    }
+    return newBuf
+  }
+}
+
+// `get` will be removed in Node 0.13+
+Buffer.prototype.get = function (offset) {
+  console.log('.get() is deprecated. Access using array indexes instead.')
+  return this.readUInt8(offset)
+}
+
+// `set` will be removed in Node 0.13+
+Buffer.prototype.set = function (v, offset) {
+  console.log('.set() is deprecated. Access using array indexes instead.')
+  return this.writeUInt8(v, offset)
+}
+
+Buffer.prototype.readUInt8 = function (offset, noAssert) {
+  if (!noAssert) {
+    assert(offset !== undefined && offset !== null, 'missing offset')
+    assert(offset < this.length, 'Trying to read beyond buffer length')
+  }
+
+  if (offset >= this.length)
+    return
+
+  return this[offset]
+}
+
+function _readUInt16 (buf, offset, littleEndian, noAssert) {
+  if (!noAssert) {
+    assert(typeof littleEndian === 'boolean', 'missing or invalid endian')
+    assert(offset !== undefined && offset !== null, 'missing offset')
+    assert(offset + 1 < buf.length, 'Trying to read beyond buffer length')
+  }
+
+  var len = buf.length
+  if (offset >= len)
+    return
+
+  var val
+  if (littleEndian) {
+    val = buf[offset]
+    if (offset + 1 < len)
+      val |= buf[offset + 1] << 8
+  } else {
+    val = buf[offset] << 8
+    if (offset + 1 < len)
+      val |= buf[offset + 1]
+  }
+  return val
+}
+
+Buffer.prototype.readUInt16LE = function (offset, noAssert) {
+  return _readUInt16(this, offset, true, noAssert)
+}
+
+Buffer.prototype.readUInt16BE = function (offset, noAssert) {
+  return _readUInt16(this, offset, false, noAssert)
+}
+
+function _readUInt32 (buf, offset, littleEndian, noAssert) {
+  if (!noAssert) {
+    assert(typeof littleEndian === 'boolean', 'missing or invalid endian')
+    assert(offset !== undefined && offset !== null, 'missing offset')
+    assert(offset + 3 < buf.length, 'Trying to read beyond buffer length')
+  }
+
+  var len = buf.length
+  if (offset >= len)
+    return
+
+  var val
+  if (littleEndian) {
+    if (offset + 2 < len)
+      val = buf[offset + 2] << 16
+    if (offset + 1 < len)
+      val |= buf[offset + 1] << 8
+    val |= buf[offset]
+    if (offset + 3 < len)
+      val = val + (buf[offset + 3] << 24 >>> 0)
+  } else {
+    if (offset + 1 < len)
+      val = buf[offset + 1] << 16
+    if (offset + 2 < len)
+      val |= buf[offset + 2] << 8
+    if (offset + 3 < len)
+      val |= buf[offset + 3]
+    val = val + (buf[offset] << 24 >>> 0)
+  }
+  return val
+}
+
+Buffer.prototype.readUInt32LE = function (offset, noAssert) {
+  return _readUInt32(this, offset, true, noAssert)
+}
+
+Buffer.prototype.readUInt32BE = function (offset, noAssert) {
+  return _readUInt32(this, offset, false, noAssert)
+}
+
+Buffer.prototype.readInt8 = function (offset, noAssert) {
+  if (!noAssert) {
+    assert(offset !== undefined && offset !== null,
+        'missing offset')
+    assert(offset < this.length, 'Trying to read beyond buffer length')
+  }
+
+  if (offset >= this.length)
+    return
+
+  var neg = this[offset] & 0x80
+  if (neg)
+    return (0xff - this[offset] + 1) * -1
+  else
+    return this[offset]
+}
+
+function _readInt16 (buf, offset, littleEndian, noAssert) {
+  if (!noAssert) {
+    assert(typeof littleEndian === 'boolean', 'missing or invalid endian')
+    assert(offset !== undefined && offset !== null, 'missing offset')
+    assert(offset + 1 < buf.length, 'Trying to read beyond buffer length')
+  }
+
+  var len = buf.length
+  if (offset >= len)
+    return
+
+  var val = _readUInt16(buf, offset, littleEndian, true)
+  var neg = val & 0x8000
+  if (neg)
+    return (0xffff - val + 1) * -1
+  else
+    return val
+}
+
+Buffer.prototype.readInt16LE = function (offset, noAssert) {
+  return _readInt16(this, offset, true, noAssert)
+}
+
+Buffer.prototype.readInt16BE = function (offset, noAssert) {
+  return _readInt16(this, offset, false, noAssert)
+}
+
+function _readInt32 (buf, offset, littleEndian, noAssert) {
+  if (!noAssert) {
+    assert(typeof littleEndian === 'boolean', 'missing or invalid endian')
+    assert(offset !== undefined && offset !== null, 'missing offset')
+    assert(offset + 3 < buf.length, 'Trying to read beyond buffer length')
+  }
+
+  var len = buf.length
+  if (offset >= len)
+    return
+
+  var val = _readUInt32(buf, offset, littleEndian, true)
+  var neg = val & 0x80000000
+  if (neg)
+    return (0xffffffff - val + 1) * -1
+  else
+    return val
+}
+
+Buffer.prototype.readInt32LE = function (offset, noAssert) {
+  return _readInt32(this, offset, true, noAssert)
+}
+
+Buffer.prototype.readInt32BE = function (offset, noAssert) {
+  return _readInt32(this, offset, false, noAssert)
+}
+
+function _readFloat (buf, offset, littleEndian, noAssert) {
+  if (!noAssert) {
+    assert(typeof littleEndian === 'boolean', 'missing or invalid endian')
+    assert(offset + 3 < buf.length, 'Trying to read beyond buffer length')
+  }
+
+  return ieee754.read(buf, offset, littleEndian, 23, 4)
+}
+
+Buffer.prototype.readFloatLE = function (offset, noAssert) {
+  return _readFloat(this, offset, true, noAssert)
+}
+
+Buffer.prototype.readFloatBE = function (offset, noAssert) {
+  return _readFloat(this, offset, false, noAssert)
+}
+
+function _readDouble (buf, offset, littleEndian, noAssert) {
+  if (!noAssert) {
+    assert(typeof littleEndian === 'boolean', 'missing or invalid endian')
+    assert(offset + 7 < buf.length, 'Trying to read beyond buffer length')
+  }
+
+  return ieee754.read(buf, offset, littleEndian, 52, 8)
+}
+
+Buffer.prototype.readDoubleLE = function (offset, noAssert) {
+  return _readDouble(this, offset, true, noAssert)
+}
+
+Buffer.prototype.readDoubleBE = function (offset, noAssert) {
+  return _readDouble(this, offset, false, noAssert)
+}
+
+Buffer.prototype.writeUInt8 = function (value, offset, noAssert) {
+  if (!noAssert) {
+    assert(value !== undefined && value !== null, 'missing value')
+    assert(offset !== undefined && offset !== null, 'missing offset')
+    assert(offset < this.length, 'trying to write beyond buffer length')
+    verifuint(value, 0xff)
+  }
+
+  if (offset >= this.length) return
+
+  this[offset] = value
+}
+
+function _writeUInt16 (buf, value, offset, littleEndian, noAssert) {
+  if (!noAssert) {
+    assert(value !== undefined && value !== null, 'missing value')
+    assert(typeof littleEndian === 'boolean', 'missing or invalid endian')
+    assert(offset !== undefined && offset !== null, 'missing offset')
+    assert(offset + 1 < buf.length, 'trying to write beyond buffer length')
+    verifuint(value, 0xffff)
+  }
+
+  var len = buf.length
+  if (offset >= len)
+    return
+
+  for (var i = 0, j = Math.min(len - offset, 2); i < j; i++) {
+    buf[offset + i] =
+        (value & (0xff << (8 * (littleEndian ? i : 1 - i)))) >>>
+            (littleEndian ? i : 1 - i) * 8
+  }
+}
+
+Buffer.prototype.writeUInt16LE = function (value, offset, noAssert) {
+  _writeUInt16(this, value, offset, true, noAssert)
+}
+
+Buffer.prototype.writeUInt16BE = function (value, offset, noAssert) {
+  _writeUInt16(this, value, offset, false, noAssert)
+}
+
+function _writeUInt32 (buf, value, offset, littleEndian, noAssert) {
+  if (!noAssert) {
+    assert(value !== undefined && value !== null, 'missing value')
+    assert(typeof littleEndian === 'boolean', 'missing or invalid endian')
+    assert(offset !== undefined && offset !== null, 'missing offset')
+    assert(offset + 3 < buf.length, 'trying to write beyond buffer length')
+    verifuint(value, 0xffffffff)
+  }
+
+  var len = buf.length
+  if (offset >= len)
+    return
+
+  for (var i = 0, j = Math.min(len - offset, 4); i < j; i++) {
+    buf[offset + i] =
+        (value >>> (littleEndian ? i : 3 - i) * 8) & 0xff
+  }
+}
+
+Buffer.prototype.writeUInt32LE = function (value, offset, noAssert) {
+  _writeUInt32(this, value, offset, true, noAssert)
+}
+
+Buffer.prototype.writeUInt32BE = function (value, offset, noAssert) {
+  _writeUInt32(this, value, offset, false, noAssert)
+}
+
+Buffer.prototype.writeInt8 = function (value, offset, noAssert) {
+  if (!noAssert) {
+    assert(value !== undefined && value !== null, 'missing value')
+    assert(offset !== undefined && offset !== null, 'missing offset')
+    assert(offset < this.length, 'Trying to write beyond buffer length')
+    verifsint(value, 0x7f, -0x80)
+  }
+
+  if (offset >= this.length)
+    return
+
+  if (value >= 0)
+    this.writeUInt8(value, offset, noAssert)
+  else
+    this.writeUInt8(0xff + value + 1, offset, noAssert)
+}
+
+function _writeInt16 (buf, value, offset, littleEndian, noAssert) {
+  if (!noAssert) {
+    assert(value !== undefined && value !== null, 'missing value')
+    assert(typeof littleEndian === 'boolean', 'missing or invalid endian')
+    assert(offset !== undefined && offset !== null, 'missing offset')
+    assert(offset + 1 < buf.length, 'Trying to write beyond buffer length')
+    verifsint(value, 0x7fff, -0x8000)
+  }
+
+  var len = buf.length
+  if (offset >= len)
+    return
+
+  if (value >= 0)
+    _writeUInt16(buf, value, offset, littleEndian, noAssert)
+  else
+    _writeUInt16(buf, 0xffff + value + 1, offset, littleEndian, noAssert)
+}
+
+Buffer.prototype.writeInt16LE = function (value, offset, noAssert) {
+  _writeInt16(this, value, offset, true, noAssert)
+}
+
+Buffer.prototype.writeInt16BE = function (value, offset, noAssert) {
+  _writeInt16(this, value, offset, false, noAssert)
+}
+
+function _writeInt32 (buf, value, offset, littleEndian, noAssert) {
+  if (!noAssert) {
+    assert(value !== undefined && value !== null, 'missing value')
+    assert(typeof littleEndian === 'boolean', 'missing or invalid endian')
+    assert(offset !== undefined && offset !== null, 'missing offset')
+    assert(offset + 3 < buf.length, 'Trying to write beyond buffer length')
+    verifsint(value, 0x7fffffff, -0x80000000)
+  }
+
+  var len = buf.length
+  if (offset >= len)
+    return
+
+  if (value >= 0)
+    _writeUInt32(buf, value, offset, littleEndian, noAssert)
+  else
+    _writeUInt32(buf, 0xffffffff + value + 1, offset, littleEndian, noAssert)
+}
+
+Buffer.prototype.writeInt32LE = function (value, offset, noAssert) {
+  _writeInt32(this, value, offset, true, noAssert)
+}
+
+Buffer.prototype.writeInt32BE = function (value, offset, noAssert) {
+  _writeInt32(this, value, offset, false, noAssert)
+}
+
+function _writeFloat (buf, value, offset, littleEndian, noAssert) {
+  if (!noAssert) {
+    assert(value !== undefined && value !== null, 'missing value')
+    assert(typeof littleEndian === 'boolean', 'missing or invalid endian')
+    assert(offset !== undefined && offset !== null, 'missing offset')
+    assert(offset + 3 < buf.length, 'Trying to write beyond buffer length')
+    verifIEEE754(value, 3.4028234663852886e+38, -3.4028234663852886e+38)
+  }
+
+  var len = buf.length
+  if (offset >= len)
+    return
+
+  ieee754.write(buf, value, offset, littleEndian, 23, 4)
+}
+
+Buffer.prototype.writeFloatLE = function (value, offset, noAssert) {
+  _writeFloat(this, value, offset, true, noAssert)
+}
+
+Buffer.prototype.writeFloatBE = function (value, offset, noAssert) {
+  _writeFloat(this, value, offset, false, noAssert)
+}
+
+function _writeDouble (buf, value, offset, littleEndian, noAssert) {
+  if (!noAssert) {
+    assert(value !== undefined && value !== null, 'missing value')
+    assert(typeof littleEndian === 'boolean', 'missing or invalid endian')
+    assert(offset !== undefined && offset !== null, 'missing offset')
+    assert(offset + 7 < buf.length,
+        'Trying to write beyond buffer length')
+    verifIEEE754(value, 1.7976931348623157E+308, -1.7976931348623157E+308)
+  }
+
+  var len = buf.length
+  if (offset >= len)
+    return
+
+  ieee754.write(buf, value, offset, littleEndian, 52, 8)
+}
+
+Buffer.prototype.writeDoubleLE = function (value, offset, noAssert) {
+  _writeDouble(this, value, offset, true, noAssert)
+}
+
+Buffer.prototype.writeDoubleBE = function (value, offset, noAssert) {
+  _writeDouble(this, value, offset, false, noAssert)
+}
+
+// fill(value, start=0, end=buffer.length)
+Buffer.prototype.fill = function (value, start, end) {
+  if (!value) value = 0
+  if (!start) start = 0
+  if (!end) end = this.length
+
+  if (typeof value === 'string') {
+    value = value.charCodeAt(0)
+  }
+
+  assert(typeof value === 'number' && !isNaN(value), 'value is not a number')
+  assert(end >= start, 'end < start')
+
+  // Fill 0 bytes; we're done
+  if (end === start) return
+  if (this.length === 0) return
+
+  assert(start >= 0 && start < this.length, 'start out of bounds')
+  assert(end >= 0 && end <= this.length, 'end out of bounds')
+
+  for (var i = start; i < end; i++) {
+    this[i] = value
+  }
+}
+
+Buffer.prototype.inspect = function () {
+  var out = []
+  var len = this.length
+  for (var i = 0; i < len; i++) {
+    out[i] = toHex(this[i])
+    if (i === exports.INSPECT_MAX_BYTES) {
+      out[i + 1] = '...'
+      break
+    }
+  }
+  return '<Buffer ' + out.join(' ') + '>'
+}
+
+/**
+ * Creates a new `ArrayBuffer` with the *copied* memory of the buffer instance.
+ * Added in Node 0.12. Only available in browsers that support ArrayBuffer.
+ */
+Buffer.prototype.toArrayBuffer = function () {
+  if (typeof Uint8Array !== 'undefined') {
+    if (Buffer._useTypedArrays) {
+      return (new Buffer(this)).buffer
+    } else {
+      var buf = new Uint8Array(this.length)
+      for (var i = 0, len = buf.length; i < len; i += 1)
+        buf[i] = this[i]
+      return buf.buffer
+    }
+  } else {
+    throw new Error('Buffer.toArrayBuffer not supported in this browser')
+  }
+}
+
+// HELPER FUNCTIONS
+// ================
+
+function stringtrim (str) {
+  if (str.trim) return str.trim()
+  return str.replace(/^\s+|\s+$/g, '')
+}
+
+var BP = Buffer.prototype
+
+/**
+ * Augment a Uint8Array *instance* (not the Uint8Array class!) with Buffer methods
+ */
+Buffer._augment = function (arr) {
+  arr._isBuffer = true
+
+  // save reference to original Uint8Array get/set methods before overwriting
+  arr._get = arr.get
+  arr._set = arr.set
+
+  // deprecated, will be removed in node 0.13+
+  arr.get = BP.get
+  arr.set = BP.set
+
+  arr.write = BP.write
+  arr.toString = BP.toString
+  arr.toLocaleString = BP.toString
+  arr.toJSON = BP.toJSON
+  arr.copy = BP.copy
+  arr.slice = BP.slice
+  arr.readUInt8 = BP.readUInt8
+  arr.readUInt16LE = BP.readUInt16LE
+  arr.readUInt16BE = BP.readUInt16BE
+  arr.readUInt32LE = BP.readUInt32LE
+  arr.readUInt32BE = BP.readUInt32BE
+  arr.readInt8 = BP.readInt8
+  arr.readInt16LE = BP.readInt16LE
+  arr.readInt16BE = BP.readInt16BE
+  arr.readInt32LE = BP.readInt32LE
+  arr.readInt32BE = BP.readInt32BE
+  arr.readFloatLE = BP.readFloatLE
+  arr.readFloatBE = BP.readFloatBE
+  arr.readDoubleLE = BP.readDoubleLE
+  arr.readDoubleBE = BP.readDoubleBE
+  arr.writeUInt8 = BP.writeUInt8
+  arr.writeUInt16LE = BP.writeUInt16LE
+  arr.writeUInt16BE = BP.writeUInt16BE
+  arr.writeUInt32LE = BP.writeUInt32LE
+  arr.writeUInt32BE = BP.writeUInt32BE
+  arr.writeInt8 = BP.writeInt8
+  arr.writeInt16LE = BP.writeInt16LE
+  arr.writeInt16BE = BP.writeInt16BE
+  arr.writeInt32LE = BP.writeInt32LE
+  arr.writeInt32BE = BP.writeInt32BE
+  arr.writeFloatLE = BP.writeFloatLE
+  arr.writeFloatBE = BP.writeFloatBE
+  arr.writeDoubleLE = BP.writeDoubleLE
+  arr.writeDoubleBE = BP.writeDoubleBE
+  arr.fill = BP.fill
+  arr.inspect = BP.inspect
+  arr.toArrayBuffer = BP.toArrayBuffer
+
+  return arr
+}
+
+// slice(start, end)
+function clamp (index, len, defaultValue) {
+  if (typeof index !== 'number') return defaultValue
+  index = ~~index;  // Coerce to integer.
+  if (index >= len) return len
+  if (index >= 0) return index
+  index += len
+  if (index >= 0) return index
+  return 0
+}
+
+function coerce (length) {
+  // Coerce length to a number (possibly NaN), round up
+  // in case it's fractional (e.g. 123.456) then do a
+  // double negate to coerce a NaN to 0. Easy, right?
+  length = ~~Math.ceil(+length)
+  return length < 0 ? 0 : length
+}
+
+function isArray (subject) {
+  return (Array.isArray || function (subject) {
+    return Object.prototype.toString.call(subject) === '[object Array]'
+  })(subject)
+}
+
+function isArrayish (subject) {
+  return isArray(subject) || Buffer.isBuffer(subject) ||
+      subject && typeof subject === 'object' &&
+      typeof subject.length === 'number'
+}
+
+function toHex (n) {
+  if (n < 16) return '0' + n.toString(16)
+  return n.toString(16)
+}
+
+function utf8ToBytes (str) {
+  var byteArray = []
+  for (var i = 0; i < str.length; i++) {
+    var b = str.charCodeAt(i)
+    if (b <= 0x7F)
+      byteArray.push(str.charCodeAt(i))
+    else {
+      var start = i
+      if (b >= 0xD800 && b <= 0xDFFF) i++
+      var h = encodeURIComponent(str.slice(start, i+1)).substr(1).split('%')
+      for (var j = 0; j < h.length; j++)
+        byteArray.push(parseInt(h[j], 16))
+    }
+  }
+  return byteArray
+}
+
+function asciiToBytes (str) {
+  var byteArray = []
+  for (var i = 0; i < str.length; i++) {
+    // Node's code seems to be doing this and not & 0x7F..
+    byteArray.push(str.charCodeAt(i) & 0xFF)
+  }
+  return byteArray
+}
+
+function utf16leToBytes (str) {
+  var c, hi, lo
+  var byteArray = []
+  for (var i = 0; i < str.length; i++) {
+    c = str.charCodeAt(i)
+    hi = c >> 8
+    lo = c % 256
+    byteArray.push(lo)
+    byteArray.push(hi)
+  }
+
+  return byteArray
+}
+
+function base64ToBytes (str) {
+  return base64.toByteArray(str)
+}
+
+function blitBuffer (src, dst, offset, length) {
+  var pos
+  for (var i = 0; i < length; i++) {
+    if ((i + offset >= dst.length) || (i >= src.length))
+      break
+    dst[i + offset] = src[i]
+  }
+  return i
+}
+
+function decodeUtf8Char (str) {
+  try {
+    return decodeURIComponent(str)
+  } catch (err) {
+    return String.fromCharCode(0xFFFD) // UTF 8 invalid char
+  }
+}
+
+/*
+ * We have to make sure that the value is a valid integer. This means that it
+ * is non-negative. It has no fractional component and that it does not
+ * exceed the maximum allowed value.
+ */
+function verifuint (value, max) {
+  assert(typeof value === 'number', 'cannot write a non-number as a number')
+  assert(value >= 0, 'specified a negative value for writing an unsigned value')
+  assert(value <= max, 'value is larger than maximum value for type')
+  assert(Math.floor(value) === value, 'value has a fractional component')
+}
+
+function verifsint (value, max, min) {
+  assert(typeof value === 'number', 'cannot write a non-number as a number')
+  assert(value <= max, 'value larger than maximum allowed value')
+  assert(value >= min, 'value smaller than minimum allowed value')
+  assert(Math.floor(value) === value, 'value has a fractional component')
+}
+
+function verifIEEE754 (value, max, min) {
+  assert(typeof value === 'number', 'cannot write a non-number as a number')
+  assert(value <= max, 'value larger than maximum allowed value')
+  assert(value >= min, 'value smaller than minimum allowed value')
+}
+
+function assert (test, message) {
+  if (!test) throw new Error(message || 'Failed assertion')
+}
+
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer/index.js","/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer")
+},{"base64-js":7,"buffer":6,"ieee754":8,"oMfpAn":9}],7:[function(require,module,exports){
+(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
+var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+
+;(function (exports) {
+    'use strict';
+
+  var Arr = (typeof Uint8Array !== 'undefined')
+    ? Uint8Array
+    : Array
+
+    var PLUS   = '+'.charCodeAt(0)
+    var SLASH  = '/'.charCodeAt(0)
+    var NUMBER = '0'.charCodeAt(0)
+    var LOWER  = 'a'.charCodeAt(0)
+    var UPPER  = 'A'.charCodeAt(0)
+    var PLUS_URL_SAFE = '-'.charCodeAt(0)
+    var SLASH_URL_SAFE = '_'.charCodeAt(0)
+
+    function decode (elt) {
+        var code = elt.charCodeAt(0)
+        if (code === PLUS ||
+            code === PLUS_URL_SAFE)
+            return 62 // '+'
+        if (code === SLASH ||
+            code === SLASH_URL_SAFE)
+            return 63 // '/'
+        if (code < NUMBER)
+            return -1 //no match
+        if (code < NUMBER + 10)
+            return code - NUMBER + 26 + 26
+        if (code < UPPER + 26)
+            return code - UPPER
+        if (code < LOWER + 26)
+            return code - LOWER + 26
+    }
+
+    function b64ToByteArray (b64) {
+        var i, j, l, tmp, placeHolders, arr
+
+        if (b64.length % 4 > 0) {
+            throw new Error('Invalid string. Length must be a multiple of 4')
+        }
+
+        // the number of equal signs (place holders)
+        // if there are two placeholders, than the two characters before it
+        // represent one byte
+        // if there is only one, then the three characters before it represent 2 bytes
+        // this is just a cheap hack to not do indexOf twice
+        var len = b64.length
+        placeHolders = '=' === b64.charAt(len - 2) ? 2 : '=' === b64.charAt(len - 1) ? 1 : 0
+
+        // base64 is 4/3 + up to two characters of the original data
+        arr = new Arr(b64.length * 3 / 4 - placeHolders)
+
+        // if there are placeholders, only get up to the last complete 4 chars
+        l = placeHolders > 0 ? b64.length - 4 : b64.length
+
+        var L = 0
+
+        function push (v) {
+            arr[L++] = v
+        }
+
+        for (i = 0, j = 0; i < l; i += 4, j += 3) {
+            tmp = (decode(b64.charAt(i)) << 18) | (decode(b64.charAt(i + 1)) << 12) | (decode(b64.charAt(i + 2)) << 6) | decode(b64.charAt(i + 3))
+            push((tmp & 0xFF0000) >> 16)
+            push((tmp & 0xFF00) >> 8)
+            push(tmp & 0xFF)
+        }
+
+        if (placeHolders === 2) {
+            tmp = (decode(b64.charAt(i)) << 2) | (decode(b64.charAt(i + 1)) >> 4)
+            push(tmp & 0xFF)
+        } else if (placeHolders === 1) {
+            tmp = (decode(b64.charAt(i)) << 10) | (decode(b64.charAt(i + 1)) << 4) | (decode(b64.charAt(i + 2)) >> 2)
+            push((tmp >> 8) & 0xFF)
+            push(tmp & 0xFF)
+        }
+
+        return arr
+    }
+
+    function uint8ToBase64 (uint8) {
+        var i,
+            extraBytes = uint8.length % 3, // if we have 1 byte left, pad 2 bytes
+            output = "",
+            temp, length
+
+        function encode (num) {
+            return lookup.charAt(num)
+        }
+
+        function tripletToBase64 (num) {
+            return encode(num >> 18 & 0x3F) + encode(num >> 12 & 0x3F) + encode(num >> 6 & 0x3F) + encode(num & 0x3F)
+        }
+
+        // go through the array every three bytes, we'll deal with trailing stuff later
+        for (i = 0, length = uint8.length - extraBytes; i < length; i += 3) {
+            temp = (uint8[i] << 16) + (uint8[i + 1] << 8) + (uint8[i + 2])
+            output += tripletToBase64(temp)
+        }
+
+        // pad the end with zeros, but make sure to not forget the extra bytes
+        switch (extraBytes) {
+            case 1:
+                temp = uint8[uint8.length - 1]
+                output += encode(temp >> 2)
+                output += encode((temp << 4) & 0x3F)
+                output += '=='
+                break
+            case 2:
+                temp = (uint8[uint8.length - 2] << 8) + (uint8[uint8.length - 1])
+                output += encode(temp >> 10)
+                output += encode((temp >> 4) & 0x3F)
+                output += encode((temp << 2) & 0x3F)
+                output += '='
+                break
+        }
+
+        return output
+    }
+
+    exports.toByteArray = b64ToByteArray
+    exports.fromByteArray = uint8ToBase64
+}(typeof exports === 'undefined' ? (this.base64js = {}) : exports))
+
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer/node_modules/base64-js/lib/b64.js","/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer/node_modules/base64-js/lib")
+},{"buffer":6,"oMfpAn":9}],8:[function(require,module,exports){
+(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
+exports.read = function (buffer, offset, isLE, mLen, nBytes) {
+  var e, m
+  var eLen = nBytes * 8 - mLen - 1
+  var eMax = (1 << eLen) - 1
+  var eBias = eMax >> 1
+  var nBits = -7
+  var i = isLE ? (nBytes - 1) : 0
+  var d = isLE ? -1 : 1
+  var s = buffer[offset + i]
+
+  i += d
+
+  e = s & ((1 << (-nBits)) - 1)
+  s >>= (-nBits)
+  nBits += eLen
+  for (; nBits > 0; e = e * 256 + buffer[offset + i], i += d, nBits -= 8) {}
+
+  m = e & ((1 << (-nBits)) - 1)
+  e >>= (-nBits)
+  nBits += mLen
+  for (; nBits > 0; m = m * 256 + buffer[offset + i], i += d, nBits -= 8) {}
+
+  if (e === 0) {
+    e = 1 - eBias
+  } else if (e === eMax) {
+    return m ? NaN : ((s ? -1 : 1) * Infinity)
+  } else {
+    m = m + Math.pow(2, mLen)
+    e = e - eBias
+  }
+  return (s ? -1 : 1) * m * Math.pow(2, e - mLen)
+}
+
+exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
+  var e, m, c
+  var eLen = nBytes * 8 - mLen - 1
+  var eMax = (1 << eLen) - 1
+  var eBias = eMax >> 1
+  var rt = (mLen === 23 ? Math.pow(2, -24) - Math.pow(2, -77) : 0)
+  var i = isLE ? 0 : (nBytes - 1)
+  var d = isLE ? 1 : -1
+  var s = value < 0 || (value === 0 && 1 / value < 0) ? 1 : 0
+
+  value = Math.abs(value)
+
+  if (isNaN(value) || value === Infinity) {
+    m = isNaN(value) ? 1 : 0
+    e = eMax
+  } else {
+    e = Math.floor(Math.log(value) / Math.LN2)
+    if (value * (c = Math.pow(2, -e)) < 1) {
+      e--
+      c *= 2
+    }
+    if (e + eBias >= 1) {
+      value += rt / c
+    } else {
+      value += rt * Math.pow(2, 1 - eBias)
+    }
+    if (value * c >= 2) {
+      e++
+      c /= 2
+    }
+
+    if (e + eBias >= eMax) {
+      m = 0
+      e = eMax
+    } else if (e + eBias >= 1) {
+      m = (value * c - 1) * Math.pow(2, mLen)
+      e = e + eBias
+    } else {
+      m = value * Math.pow(2, eBias - 1) * Math.pow(2, mLen)
+      e = 0
+    }
+  }
+
+  for (; mLen >= 8; buffer[offset + i] = m & 0xff, i += d, m /= 256, mLen -= 8) {}
+
+  e = (e << mLen) | m
+  eLen += mLen
+  for (; eLen > 0; buffer[offset + i] = e & 0xff, i += d, e /= 256, eLen -= 8) {}
+
+  buffer[offset + i - d] |= s * 128
+}
+
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer/node_modules/ieee754/index.js","/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/buffer/node_modules/ieee754")
+},{"buffer":6,"oMfpAn":9}],9:[function(require,module,exports){
+(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
+// shim for using process in browser
+
+var process = module.exports = {};
+
+process.nextTick = (function () {
+    var canSetImmediate = typeof window !== 'undefined'
+    && window.setImmediate;
+    var canPost = typeof window !== 'undefined'
+    && window.postMessage && window.addEventListener
+    ;
+
+    if (canSetImmediate) {
+        return function (f) { return window.setImmediate(f) };
+    }
+
+    if (canPost) {
+        var queue = [];
+        window.addEventListener('message', function (ev) {
+            var source = ev.source;
+            if ((source === window || source === null) && ev.data === 'process-tick') {
+                ev.stopPropagation();
+                if (queue.length > 0) {
+                    var fn = queue.shift();
+                    fn();
+                }
+            }
+        }, true);
+
+        return function nextTick(fn) {
+            queue.push(fn);
+            window.postMessage('process-tick', '*');
+        };
+    }
+
+    return function nextTick(fn) {
+        setTimeout(fn, 0);
+    };
+})();
+
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+}
+
+// TODO(shtylman)
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/process/browser.js","/../../node_modules/gulp-browserify/node_modules/browserify/node_modules/process")
+},{"buffer":6,"oMfpAn":9}],10:[function(require,module,exports){
+(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
+(function(window) {
+    var re = {
+        not_string: /[^s]/,
+        number: /[diefg]/,
+        json: /[j]/,
+        not_json: /[^j]/,
+        text: /^[^\x25]+/,
+        modulo: /^\x25{2}/,
+        placeholder: /^\x25(?:([1-9]\d*)\$|\(([^\)]+)\))?(\+)?(0|'[^$])?(-)?(\d+)?(?:\.(\d+))?([b-gijosuxX])/,
+        key: /^([a-z_][a-z_\d]*)/i,
+        key_access: /^\.([a-z_][a-z_\d]*)/i,
+        index_access: /^\[(\d+)\]/,
+        sign: /^[\+\-]/
+    }
+
+    function sprintf() {
+        var key = arguments[0], cache = sprintf.cache
+        if (!(cache[key] && cache.hasOwnProperty(key))) {
+            cache[key] = sprintf.parse(key)
+        }
+        return sprintf.format.call(null, cache[key], arguments)
+    }
+
+    sprintf.format = function(parse_tree, argv) {
+        var cursor = 1, tree_length = parse_tree.length, node_type = "", arg, output = [], i, k, match, pad, pad_character, pad_length, is_positive = true, sign = ""
+        for (i = 0; i < tree_length; i++) {
+            node_type = get_type(parse_tree[i])
+            if (node_type === "string") {
+                output[output.length] = parse_tree[i]
+            }
+            else if (node_type === "array") {
+                match = parse_tree[i] // convenience purposes only
+                if (match[2]) { // keyword argument
+                    arg = argv[cursor]
+                    for (k = 0; k < match[2].length; k++) {
+                        if (!arg.hasOwnProperty(match[2][k])) {
+                            throw new Error(sprintf("[sprintf] property '%s' does not exist", match[2][k]))
+                        }
+                        arg = arg[match[2][k]]
+                    }
+                }
+                else if (match[1]) { // positional argument (explicit)
+                    arg = argv[match[1]]
+                }
+                else { // positional argument (implicit)
+                    arg = argv[cursor++]
+                }
+
+                if (get_type(arg) == "function") {
+                    arg = arg()
+                }
+
+                if (re.not_string.test(match[8]) && re.not_json.test(match[8]) && (get_type(arg) != "number" && isNaN(arg))) {
+                    throw new TypeError(sprintf("[sprintf] expecting number but found %s", get_type(arg)))
+                }
+
+                if (re.number.test(match[8])) {
+                    is_positive = arg >= 0
+                }
+
+                switch (match[8]) {
+                    case "b":
+                        arg = arg.toString(2)
+                    break
+                    case "c":
+                        arg = String.fromCharCode(arg)
+                    break
+                    case "d":
+                    case "i":
+                        arg = parseInt(arg, 10)
+                    break
+                    case "j":
+                        arg = JSON.stringify(arg, null, match[6] ? parseInt(match[6]) : 0)
+                    break
+                    case "e":
+                        arg = match[7] ? arg.toExponential(match[7]) : arg.toExponential()
+                    break
+                    case "f":
+                        arg = match[7] ? parseFloat(arg).toFixed(match[7]) : parseFloat(arg)
+                    break
+                    case "g":
+                        arg = match[7] ? parseFloat(arg).toPrecision(match[7]) : parseFloat(arg)
+                    break
+                    case "o":
+                        arg = arg.toString(8)
+                    break
+                    case "s":
+                        arg = ((arg = String(arg)) && match[7] ? arg.substring(0, match[7]) : arg)
+                    break
+                    case "u":
+                        arg = arg >>> 0
+                    break
+                    case "x":
+                        arg = arg.toString(16)
+                    break
+                    case "X":
+                        arg = arg.toString(16).toUpperCase()
+                    break
+                }
+                if (re.json.test(match[8])) {
+                    output[output.length] = arg
+                }
+                else {
+                    if (re.number.test(match[8]) && (!is_positive || match[3])) {
+                        sign = is_positive ? "+" : "-"
+                        arg = arg.toString().replace(re.sign, "")
+                    }
+                    else {
+                        sign = ""
+                    }
+                    pad_character = match[4] ? match[4] === "0" ? "0" : match[4].charAt(1) : " "
+                    pad_length = match[6] - (sign + arg).length
+                    pad = match[6] ? (pad_length > 0 ? str_repeat(pad_character, pad_length) : "") : ""
+                    output[output.length] = match[5] ? sign + arg + pad : (pad_character === "0" ? sign + pad + arg : pad + sign + arg)
+                }
+            }
+        }
+        return output.join("")
+    }
+
+    sprintf.cache = {}
+
+    sprintf.parse = function(fmt) {
+        var _fmt = fmt, match = [], parse_tree = [], arg_names = 0
+        while (_fmt) {
+            if ((match = re.text.exec(_fmt)) !== null) {
+                parse_tree[parse_tree.length] = match[0]
+            }
+            else if ((match = re.modulo.exec(_fmt)) !== null) {
+                parse_tree[parse_tree.length] = "%"
+            }
+            else if ((match = re.placeholder.exec(_fmt)) !== null) {
+                if (match[2]) {
+                    arg_names |= 1
+                    var field_list = [], replacement_field = match[2], field_match = []
+                    if ((field_match = re.key.exec(replacement_field)) !== null) {
+                        field_list[field_list.length] = field_match[1]
+                        while ((replacement_field = replacement_field.substring(field_match[0].length)) !== "") {
+                            if ((field_match = re.key_access.exec(replacement_field)) !== null) {
+                                field_list[field_list.length] = field_match[1]
+                            }
+                            else if ((field_match = re.index_access.exec(replacement_field)) !== null) {
+                                field_list[field_list.length] = field_match[1]
+                            }
+                            else {
+                                throw new SyntaxError("[sprintf] failed to parse named argument key")
+                            }
+                        }
+                    }
+                    else {
+                        throw new SyntaxError("[sprintf] failed to parse named argument key")
+                    }
+                    match[2] = field_list
+                }
+                else {
+                    arg_names |= 2
+                }
+                if (arg_names === 3) {
+                    throw new Error("[sprintf] mixing positional and named placeholders is not (yet) supported")
+                }
+                parse_tree[parse_tree.length] = match
+            }
+            else {
+                throw new SyntaxError("[sprintf] unexpected placeholder")
+            }
+            _fmt = _fmt.substring(match[0].length)
+        }
+        return parse_tree
+    }
+
+    var vsprintf = function(fmt, argv, _argv) {
+        _argv = (argv || []).slice(0)
+        _argv.splice(0, 0, fmt)
+        return sprintf.apply(null, _argv)
+    }
+
+    /**
+     * helpers
+     */
+    function get_type(variable) {
+        return Object.prototype.toString.call(variable).slice(8, -1).toLowerCase()
+    }
+
+    function str_repeat(input, multiplier) {
+        return Array(multiplier + 1).join(input)
+    }
+
+    /**
+     * export to either browser or node.js
+     */
+    if (typeof exports !== "undefined") {
+        exports.sprintf = sprintf
+        exports.vsprintf = vsprintf
+    }
+    else {
+        window.sprintf = sprintf
+        window.vsprintf = vsprintf
+
+        if (typeof define === "function" && define.amd) {
+            define(function() {
+                return {
+                    sprintf: sprintf,
+                    vsprintf: vsprintf
+                }
+            })
+        }
+    }
+})(typeof window === "undefined" ? this : window);
+
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/sprintf-js/src/sprintf.js","/../../node_modules/sprintf-js/src")
+},{"buffer":6,"oMfpAn":9}]},{},[4]);
+
+会场左悬浮
+
+<div class="mod_row MOD_ID_XXX">
+    <?php
+        $prods = array();
+        foreach($data['formData']['good']['models'] as $ikey => $ival){
+          
+            $prods[] = $ival['tittle'];
+        }
+        
+    ?>
+    <div class="mod_cont side_menu_side">
+        <div class="side_comment">
+            <div class="side_function">
+                <div class="side_menu_logo"></div>
+                <a class="side_back" href="">回主会场</a>
+                <a class="side_in" href="">充值抢红包</a>
+                <div class="side_menu_modu">
+                
+                  <?php foreach($prods as $key => $val){
+                    ?>  
+                    <div class="side_menu_a"><a class="side_c side_choose side_choose" href="javascript:;"><?php echo $val?></a></div>
+                    <?php } ?>
+                </div>
+                <a href="javascript:;"  class="side_top">好货抢先预售</a>
+            </div>
+            </div>
+        </div>
+</div>
+
+
+.MOD_ID_XXX .side_menu_side {
+  position: fixed;
+  top: 15px;
+  z-index: 999;
+  height: auto;
+}
+
+.MOD_ID_XXX .side_menu_side .side_function {
+  padding-left: 10px;
+}
+
+.MOD_ID_XXX .side_menu_side .side_function a {
+  display: block;
+}
+
+.MOD_ID_XXX .side_menu_side .side_function .side_menu_logo {
+  width: 188px;
+  height: 154px;
+  background: url(http://s17.mogucdn.com/p1/151014/upload_ie2win3gg5sdqyrtgqzdambqhayde_188x154.png) -45px 35px no-repeat;
+  overflow: visible;
+}
+
+.MOD_ID_XXX .side_menu_side .side_function .side_back, .MOD_ID_XXX .side_menu_side .side_function .side_in {
+  width: 130px;
+  height: 40px;
+  margin-bottom: 3px;
+  line-height: 40px;
+  text-indent:12px;
+  color: #fff;
+  background: url(http://s16.mogucdn.com/p1/151013/upload_ie2dsyjzmm4tgobtgqzdambqgiyde_6x10.png) 112px 16px no-repeat;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: block;
+}
+.MOD_ID_XXX .side_menu_side .side_function .side_back {
+    background-color: #333;
+}
+.MOD_ID_XXX .side_menu_side .side_function .side_in{
+    background-color: #ff274c;
+}
+
+.MOD_ID_XXX .side_menu_side .side_function .side_menu_modu {
+  width:130px;
+  background-color: #ff274c;
+  border-radius: 5px;
+  overflow:hidden;
+}
+
+.MOD_ID_XXX .side_menu_side .side_function .side_c {
+  width: 118px;
+  height: 36px;
+  line-height: 36px;
+  border-top: 1px dotted #ffb54b;
+  color: #fff;
+  font-size: 14px;
+  text-indent:20px;
+}
+
+
+.MOD_ID_XXX .side_menu_side .side_function .side_choose_0 {
+  border-top:none;
+}
+.MOD_ID_XXX .side_menu_side .side_function .side_menu_a {
+  background: url(http://s16.mogucdn.com/p1/151013/upload_ie2dsyjzmm4tgobtgqzdambqgiyde_6x10.png) 112px 13px no-repeat;
+
+  padding:0 6px;
+          }
+
+.MOD_ID_XXX .side_menu_side .side_function .side_menu_a:hover {
+  background-color: #ca0023;
+}
+
+.MOD_ID_XXX .side_menu_side .side_function .side_top {
+  height: 46px;
+  width:130px;
+  background-color: #ff274c;
+  color: #fff;
+  line-height: 55px;
+  margin-top: 3px;
+  border-radius: 5px;
+  text-align: center;
+
+}
+
+
+.MOD_ID_XXX .side_menu_side .side_coupons {
+  margin-top: 4px;
+  color: #fff;
+  text-align: center;
+}
+
+.MOD_ID_XXX .side_menu_side .side_cou {
+  display: block;
+  padding-top: 4px;
+  margin-bottom: 1px;
+  width: 100px;
+  height: 67px;
+  background: #e5004f;
+}
+
+.MOD_ID_XXX .side_menu_side .side_cou .side_cou_tit {
+  font-size: 16px;
+}
+
+.MOD_ID_XXX .side_menu_side .side_cou .side_cou_bom {
+  position: relative;
+  padding-left: 12px;
+  display: inline-block;
+  *display: inline;
+  font-size: 36px;
+  line-height: 36px;
+  font-family: "Microsoft Yahei", "Heiti";
+  font-weight: 700;
+}
+.MOD_ID_XXX .side_menu_side .side_cou .side_cou_bom .side_cou_icon {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 2;
+    font-size: 14px;
+    line-height: 16px;
+  }
+
+
+  $(function(){
+    var Top = $(window).height(),
+           side = $('.side_menu_side');
+           side.css('display','none');
+      var showtop = $(window).scrollTop();
+      if(showtop>=700){
+        side.css('display','block');
+      }
+
+          $(window).bind("scroll",function() {
+            var showtop = $(window).scrollTop();
+            console.log(showtop);
+            if(showtop >= 700){
+              side.fadeIn();
+              console.log(showtop);
+            }else {
+                side.fadeOut();
+            }
+    
+
+    });
+});
+
+
+双十分会场图强5重复个
+<div class="mod_row MOD_ID_XXX">
+    <?php
+        $dop = $data['formData']['dop']['models'];
+        $top = $data['formData']['top']['models'];
+        $prodIDs = array();
+        foreach($data['formData']['prods']['models'] as $ikey => $ival){
+            $prodIDs[$ikey] = urltoid($ival['id']);
+        }
+        $prods = Model_FeedStreamV2_Api_UserInterface::getItemInfoForMoFang($prodIDs);
+    ?>
+    
+    <div class="hotlist">
+        <div class="titt">
+            <span class="titt_text" id="<?php echo $dop[1]['id']?>" tittle="<?php echo $dop[1]['attr']?>">
+                <img src="<?php echo $dop[1]['img']?>" alt="">
+            </span>
+           
+        </div>
+            <div class="inner">
+            <div class="inner_top">
+                  <a href="" class="hot-wrap clearfix" target="_blank" >
+                    <div class="img-box">
+                      <img src="<?php echo $top[0]['img'];?>" alt="">
+                      </div>
+                  </a>
+                  <ul class="shop_list clearfix">
+                      <li class="shop_list_a"><?php echo $top[0]['list_1'];?><span class="shop_list_icon"></span></li>
+                      <li class="shop_list_a"><?php echo $top[0]['list_2'];?><span class="shop_list_icon"></span></li>
+                      <li class="shop_list_a"><?php echo $top[0]['list_3'];?><span class="shop_list_icon"></span></li>
+                      <li class="shop_list_a"><?php echo $top[0]['list_4'];?><span class="shop_list_icon"></span></li>
+                  </ul>
+                </div>
+            
+        <?php foreach($prods as $key => $val){
+        ?>  
+            
+            <div class="item">
+                <a href="<?php echo str_replace('m.mogujie.com/x6', 'shop.mogujie.com', $val['url']); ?>" class="hot-wrap" target="_blank">
+                    <div class="img-box">
+                        
+                        <span class="topn"><img src="<?php echo $dop[0]['img']?>" alt=""></span>
+                        <img class="pic" src="<?php echo $val['image']?>" alt="" />
+                    </div>
+                    <div class="saller">
+                        
+                        <div class="title"><?php echo $val['title']?></div>
+                        <div class="desc">
+                            <span class="desc_icon">11.11</span>
+                            <span class="price">&yen;<?php echo $val['price']?></span>
+                            <span class="price_del"><del>&yen;<?php echo $val['price']*2?><del></span>
+                        
+                        </div>
+                    </div>
+                    <div class="item-footer">
+                        
+                        <span class="btn-buy">立即购买</span>
+                    </div>
+                </a>
+            </div>
+        <?php } ?>
+        </div>
+    </div><!-- .hotlist -->
+    
+</div>
+
+
+.MOD_ID_XXX .hotlist {
+    width:956px;
+    margin:auto;
+    overflow: hidden;
+    font-family:Arial, "Microsoft Yahei", Samsun, sans-serif;
+}
+.MOD_ID_XXX .hotlist .titt {
+    height:24px;
+    text-align:center;
+    margin:50px 0 25px 0;
+}
+.MOD_ID_XXX .hotlist .titt .titt_text {
+    display:inline-block;
+    padding:0 10px;
+    
+}
+
+.MOD_ID_XXX .hotlist .inner {
+    margin-left:-13px;
+}
+.MOD_ID_XXX .hotlist .inner_top {
+    float: left;
+    width:230px;
+    height:410px;
+    margin:0 0 24px 12px;
+}
+
+.MOD_ID_XXX .hotlist .inner .inner_top .shop_list {
+    padding:2px 2px;
+    width:236px;
+    margin-top:7px;
+   
+    
+}
+.MOD_ID_XXX .hotlist .inner .inner_top .shop_list .shop_list_a {
+    float:left;
+    margin:9px 6px 0 0;
+    width:110px;
+    height:47px;
+    background-color:#fff;
+    text-align:center;
+    line-height:47px;
+}
+.MOD_ID_XXX .hotlist .inner .inner_top .shop_list .shop_list_a .shop_list_icon {
+    display:inline-block;
+    width:5px;
+    height:7px;
+    margin-left:8px;
+    background:url(http://s17.mogucdn.com/p1/151021/upload_ie4gindgg5stembwgqzdambqgiyde_5x7.png) no-repeat;
+}
+.MOD_ID_XXX .hotlist .item {
+    float: left;
+    width:230px;
+    height:410px;
+    margin:0 0 24px 12px;
+    
+    background-color:#fff;
+}
+.MOD_ID_XXX .hotlist .img-box {
+    position: relative;
+    width:100%;
+    height: 290px;
+    overflow: hidden;
+}
+.MOD_ID_XXX .hotlist .img-box img {width:100%;}
+.MOD_ID_XXX .hotlist .img-box .topn {
+    position: absolute;
+    left:10px;
+    top:0;
+    width:42px;
+    height:42px;
+}
+
+.MOD_ID_XXX .saller{
+    position: relative;
+    z-index: 12;
+    padding: 5px 2px;
+    overflow: hidden;
+    
+}
+
+
+.MOD_ID_XXX .saller .title{
+    margin: 8px 0 3px;
+    height: 20px;
+    padding:0 15px;
+    line-height: 20px;
+    color: #333;
+    font-size: 16px;
+    font-weight:bold;
+    overflow: hidden;
+    text-overflow: ellipsis; 
+    white-space: nowrap; 
+    overflow: hidden;
+}
+
+.MOD_ID_XXX .saller .desc{
+    font-size: 14px;
+    padding:0 15px;
+}
+
+
+.MOD_ID_XXX .saller .desc .desc_icon{
+    line-height:18px;
+    height:18px;
+    width:42px;
+    border:1px solid #fc135b;
+    color:#fc135b;
+    margin-right:10px;
+    padding:2px 2px;
+  
+}
+.MOD_ID_XXX .saller .desc .price {
+    color:#fc135b;
+    font-weight:bold;
+    font-size:18px;
+    margin-right:10px;
+}
+.MOD_ID_XXX .saller .desc .price_del {
+    font-size:10px;
+    color:#c6c6c6;
+}
+.MOD_ID_XXX .item-footer{
+    padding:0 13px 11px;
+    height:41px;
+    line-height: 41px;
+    overflow: hidden;
+}
+
+
+
+.MOD_ID_XXX .item-footer .btn-buy{
+    display:block;
+    width: 100%;
+    height: 29px;
+    line-height: 29px;
+    color: #fff;
+    font-size: 16px;
+    text-align: center;
+    background-color:#fc135b;
+    
+}
+
+http://s17.mogucdn.com/p1/151021/upload_ie4gindgg5stembwgqzdambqgiyde_5x7.png
+
+
+右侧浮动模块
+
+
+<div class="mod_row MOD_ID_XXX">
+  <!-- 添加图墙模块时，设置其标题名（tittle）显示在右侧侧边栏的名字
+    添加id的数据，点击右侧模版的选项回到其图墙的位置-->
+      <div class="mod_cont side_menuu_side">
+        <div class="side_comment">
+            <div class="side_function">
+                <a class="side_back" href="">回主会场</a>
+                <a class="side_in" href="">充值抢红包</a>
+                <div class="side_menu_modu">
+                
+                  
+                    <div class="side_menu_a"><a class="side_c side_choose side_choose" href="javascript:;"></a></div>
+                    
+                </div>
+                <a href="javascript:;"  class="side_top">top</a>
+            </div>
+            </div>
+        </div>
+        
+     <script>
+$(function(){
+    var rannnd ={
+        
+    int: function(){
+        
+    
+      this.render();
+      this.addEvent();
+      this.addHeight();
+      this.topShow();
+    },
+   render: function () {
+       var titleList = [];
+        $('.hotlist .titt_text').each(function(index, item){
+            var $item = $(item);
+            var str = '<div class="side_menu_a"><a class="side_c side_choose side_choose" href="#'+$item.attr('id')+'"> '+ $item.attr('title') +' </a></div>';
+            titleList.push(str);
+        });
+      $('.side_menuu_side .side_menu_modu').html(titleList.join(''));
+    },
+
+    addEvent: function () {
+      var that = this;
+
+      $('.side_menuu_side').on('click', '.side_top', function () {
+        $(window, document).scrollTop(0);
+      })
+    },
+    addHeight: function(){
+      var Top = $(window).height(),
+          Height = $('.side_menuu_side').height();
+          t_height = (Top - Height)/2;
+          $('.side_menuu_side').css("top",t_height);
+    },
+    topShow: function(){
+      var Top = $(window).height(),
+           side = $('.side_menuu_side');
+           side.css('display','none');
+      var showtop = $(window).scrollTop();
+      if(showtop>=700){
+        side.css('display','block');
+      }
+          $(window).bind("scroll",function() {
+            var showtop = $(window).scrollTop();
+            console.log(showtop);
+            if(showtop >= 700){
+              side.fadeIn();
+              console.log(showtop);
+            }else {
+                side.fadeOut();
+            }
+    });
+    }
+  }
+  rannnd.int()
+})
+
+   </script>
+
+
+.MOD_ID_XXX .side_menuu_side {
+  position: fixed;
+  top: 15px;
+  left: 50%;
+  z-index: 999;
+  margin-left: 480px;
+  height: auto;
+}
+
+.MOD_ID_XXX .side_menuu_side .side_function {
+  padding-left: 10px;
+}
+
+.MOD_ID_XXX .side_menuu_side .side_function a {
+  display: block;
+}
+
+.MOD_ID_XXX .side_menuu_side .side_function .side_menu_logo {
+  width: 188px;
+  height: 154px;
+  background: url(http://s17.mogucdn.com/p1/151014/upload_ie2win3gg5sdqyrtgqzdambqhayde_188x154.png) -45px 35px no-repeat;
+  overflow: visible;
+}
+
+.MOD_ID_XXX .side_menuu_side .side_function .side_back, .MOD_ID_XXX .side_menuu_side .side_function .side_in {
+  width: 130px;
+  height: 40px;
+  margin-bottom: 3px;
+  line-height: 40px;
+  text-indent:12px;
+  color: #fff;
+  background: url(http://s16.mogucdn.com/p1/151013/upload_ie2dsyjzmm4tgobtgqzdambqgiyde_6x10.png) 112px 16px no-repeat;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: block;
+}
+.MOD_ID_XXX .side_menuu_side .side_function .side_back {
+    background-color: #333;
+}
+.MOD_ID_XXX .side_menuu_side .side_function .side_in{
+    background-color: #ff274c;
+}
+
+.MOD_ID_XXX .side_menuu_side .side_function .side_menu_modu {
+  width:130px;
+  background-color: #ff274c;
+  border-radius: 5px;
+  overflow:hidden;
+}
+
+.MOD_ID_XXX .side_menuu_side .side_function .side_c {
+  width: 118px;
+  height: 36px;
+  line-height: 36px;
+  border-top: 1px dotted #ffb54b;
+  color: #fff;
+  font-size: 14px;
+  text-indent:20px;
+}
+
+
+.MOD_ID_XXX .side_menuu_side .side_function .side_choose_0 {
+  border-top:none;
+}
+.MOD_ID_XXX .side_menuu_side .side_function .side_menu_a {
+  background: url(http://s16.mogucdn.com/p1/151013/upload_ie2dsyjzmm4tgobtgqzdambqgiyde_6x10.png) 112px 13px no-repeat;
+
+  padding:0 6px;
+          }
+
+.MOD_ID_XXX .side_menuu_side .side_function .side_menu_a:hover {
+  background-color: #ca0023;
+}
+
+.MOD_ID_XXX .side_menuu_side .side_function .side_top {
+  height: 46px;
+  width:130px;
+  background-color: #ff274c;
+  color: #fff;
+  line-height: 55px;
+  margin-top: 3px;
+  border-radius: 5px;
+  text-align: center;
+
+}
+
+
+.MOD_ID_XXX .side_menuu_side .side_coupons {
+  margin-top: 4px;
+  color: #fff;
+  text-align: center;
+}
+
+.MOD_ID_XXX .side_menuu_side .side_cou {
+  display: block;
+  padding-top: 4px;
+  margin-bottom: 1px;
+  width: 100px;
+  height: 67px;
+  background: #e5004f;
+}
+
+.MOD_ID_XXX .side_menuu_side .side_cou .side_cou_tit {
+  font-size: 16px;
+}
+
+.MOD_ID_XXX .side_menuu_side .side_cou .side_cou_bom {
+  position: relative;
+  padding-left: 12px;
+  display: inline-block;
+  *display: inline;
+  font-size: 36px;
+  line-height: 36px;
+  font-family: "Microsoft Yahei", "Heiti";
+  font-weight: 700;
+}
+.MOD_ID_XXX .side_menuu_side .side_cou .side_cou_bom .side_cou_icon {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 2;
+    font-size: 14px;
+    line-height: 16px;
+  }
+
+
+  ／／底部
+
+  <div class="mod_row MOD_ID_XXX">
+    <?php
+        $dop = $data['formData']['dop']['models'];
+        $prodIDs = array();
+        foreach($data['formData']['prods']['models'] as $ikey => $ival){
+            $prodIDs[$ikey] = urltoid($ival['id']);
+        }
+        $prods = Model_FeedStreamV2_Api_UserInterface::getItemInfoForMoFang($prodIDs);
+    ?>
+    <div class="hotlist">
+        <div class="titt">
+            <span class="titt_text">
+                <img src="<?php echo $dop[1]['img']?>" alt="">
+            </span>
+        </div>
+            <div class="inner">
+        <?php foreach($prods as $key => $val){
+        ?>  
+            <div class="item">
+                <a href="<?php echo str_replace('m.mogujie.com/x6', 'shop.mogujie.com', $val['url']); ?>" class="hot-wrap" target="_blank">
+                    <div class="img-box">
+                        <span class="topn"><img src="<?php echo $dop[0]['img']?>" alt=""></span>
+                        <img class="pic" src="<?php echo $val['image']?>" alt="" />
+                    </div>
+                    <span class="avatar">
+                            <img src="<?php echo $val['avatar']?>" alt="">
+                        </span>
+                    <div class="saller">
+                        <div class="desc">
+                            <span class="name"><?php echo $val['uname']?></span>
+                            <span class="cupponn">全场满三百减一百</span>
+                        </div>
+                    </div>
+                    <div class="item-footer">
+                        <span class="btn-buy">进入店铺</span>
+                    </div>
+                </a>
+            </div>
+        <?php } ?>
+        </div>
+    </div><!-- .hotlist -->
+    
+</div>
+
+
+
+.MOD_ID_XXX .hotlist {
+    width:963px;
+    margin:auto;
+    overflow: hidden;
+    font-family:Arial, "Microsoft Yahei", Samsun, sans-serif;
+}
+.MOD_ID_XXX .hotlist .titt {
+    height:24px;
+    text-align:center;
+    margin:50px 0 25px 0;
+}
+.MOD_ID_XXX .hotlist .titt .titt_text {
+    display:inline-block;
+    padding:0 10px;
+    
+}
+
+.MOD_ID_XXX .hotlist .inner {
+    margin-left:-13px;
+}
+
+
+.MOD_ID_XXX .hotlist .item {
+    float: left;
+    width:232px;
+    height:346px;
+    margin:0 0 24px 12px;
+    position:relative;
+    
+    background-color:#fff;
+}
+.MOD_ID_XXX .hotlist .img-box {
+    position: relative;
+    width:100%;
+    height: 230px;
+    overflow: hidden;
+}
+.MOD_ID_XXX .hotlist .img-box img {width:100%;}
+.MOD_ID_XXX .hotlist .img-box .topn {
+    position: absolute;
+    left:10px;
+    top:0;
+    width:42px;
+    height:42px;
+}
+
+.MOD_ID_XXX .saller{
+    position: relative;
+    z-index: 12;
+    overflow: hidden;
+    margin-top:17px;
+    
+}
+
+
+.MOD_ID_XXX .item .avatar{
+    position:absolute;
+    top:190px;
+    left:80px;
+    margin-right:5px;
+}
+
+.MOD_ID_XXX .item .avatar img{
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border:1px solid #dbdcdc;
+}
+
+
+
+
+
+.MOD_ID_XXX .saller .desc .name{
+    color: #7a7a7a;
+    font-size: 16px;
+    text-align:center;
+    display:block;
+    font-weight:bold;
+}
+.MOD_ID_XXX .saller .desc .cupponn {
+    display:block;
+    text-align:center;
+    font-size:16px;
+    color: #fc135b;
+    font-weight:bold;
+}
+
+.MOD_ID_XXX .item-footer{
+    padding:0 13px 11px;
+    height:41px;
+    line-height: 41px;
+    overflow: hidden;
+}
+
+
+
+.MOD_ID_XXX .item-footer .btn-buy{
+    display:block;
+    width: 100%;
+    height: 29px;
+    line-height: 29px;
+    color: #fff;
+    font-size: 16px;
+    text-align: center;
+    background-color:#fc135b;
+    
+}
+
+
+http://s17.mogucdn.com/p1/151021/upload_ie4gindgg5stembwgqzdambqgiyde_5x7.png

@@ -1,0 +1,142 @@
+.MOD_ID_XXX .hotlist {
+    width:956px;
+    margin:auto;
+    overflow: hidden;
+    font-family:Arial, "Microsoft Yahei", Samsun, sans-serif;
+}
+.MOD_ID_XXX .hotlist .titt {
+    height:24px;
+    text-align:center;
+    margin:50px 0 25px 0;
+}
+.MOD_ID_XXX .hotlist .titt .titt_text {
+    display:inline-block;
+    padding:0 10px;
+    
+}
+
+.MOD_ID_XXX .hotlist .inner {
+    margin-left:-13px;
+}
+.MOD_ID_XXX .hotlist .inner_top {
+    float: left;
+    width:230px;
+    height:410px;
+    margin:0 0 24px 12px;
+}
+
+.MOD_ID_XXX .hotlist .inner .inner_top .shop_list {
+    padding:2px 2px;
+    width:236px;
+    margin-top:7px;
+   
+    
+}
+.MOD_ID_XXX .hotlist .inner .inner_top .shop_list .shop_list_a {
+    float:left;
+    margin:9px 6px 0 0;
+    width:110px;
+    height:47px;
+    background-color:#fff;
+    text-align:center;
+    line-height:47px;
+}
+.MOD_ID_XXX .hotlist .inner .inner_top .shop_list .shop_list_a .shop_list_icon {
+    display:inline-block;
+    width:5px;
+    height:7px;
+    margin-left:8px;
+    background:url(http://s17.mogucdn.com/p1/151021/upload_ie4gindgg5stembwgqzdambqgiyde_5x7.png) no-repeat;
+}
+.MOD_ID_XXX .hotlist .item {
+    float: left;
+    width:230px;
+    height:410px;
+    margin:0 0 24px 12px;
+    
+    background-color:#fff;
+}
+.MOD_ID_XXX .hotlist .img-box {
+    position: relative;
+    width:100%;
+    height: 290px;
+    overflow: hidden;
+}
+.MOD_ID_XXX .hotlist .img-box img {width:100%;}
+.MOD_ID_XXX .hotlist .img-box .topn {
+    position: absolute;
+    left:10px;
+    top:0;
+    width:42px;
+    height:42px;
+}
+
+.MOD_ID_XXX .saller{
+    position: relative;
+    z-index: 12;
+    padding: 5px 2px;
+    overflow: hidden;
+    
+}
+
+
+.MOD_ID_XXX .saller .title{
+    margin: 8px 0 3px;
+    height: 20px;
+    padding:0 15px;
+    line-height: 20px;
+    color: #333;
+    font-size: 16px;
+    font-weight:bold;
+    overflow: hidden;
+    text-overflow: ellipsis; 
+    white-space: nowrap; 
+    overflow: hidden;
+}
+
+.MOD_ID_XXX .saller .desc{
+    font-size: 14px;
+    padding:0 15px;
+}
+
+
+.MOD_ID_XXX .saller .desc .desc_icon{
+    line-height:18px;
+    height:18px;
+    width:42px;
+    border:1px solid #fc135b;
+    color:#fc135b;
+    margin-right:10px;
+    padding:2px 2px;
+  
+}
+.MOD_ID_XXX .saller .desc .price {
+    color:#fc135b;
+    font-weight:bold;
+    font-size:18px;
+    margin-right:10px;
+}
+.MOD_ID_XXX .saller .desc .price_del {
+    font-size:10px;
+    color:#c6c6c6;
+}
+.MOD_ID_XXX .item-footer{
+    padding:0 13px 11px;
+    height:41px;
+    line-height: 41px;
+    overflow: hidden;
+}
+
+
+
+.MOD_ID_XXX .item-footer .btn-buy{
+    display:block;
+    width: 100%;
+    height: 29px;
+    line-height: 29px;
+    color: #fff;
+    font-size: 16px;
+    text-align: center;
+    background-color:#fc135b;
+    
+}

@@ -1,0 +1,34 @@
+<div class="mod_row MOD_ID_XXX">
+<?php  
+        $bgsounds = $data['formData']['good']['models'][0]['bgsounds']; 
+if(!empty($bgsounds)){
+?>
+    <embed src="<?php echo $bgsounds; ?>" autostart="true" loop="true" hidden="true"></embed>
+<?php }?>
+    <canvas class="snow-canvas" speed="1" interaction="true" size="8" count="25" wind-power="3" image="http://s18.mogucdn.com/p1/151214/upload_ifrdizbzhazdinrxguzdambqmeyde_300x287.png" width="450px" height="10000px"></canvas>
+</div>
+
+
+{
+    "formData": {
+        "good": {
+            "group": "选项卡名称",
+            "title": "表单名称",
+            "fields": [
+                {
+                    "name": "bgsounds",
+                    "title": "背景音乐地址",
+                    "type": "string"
+                }
+            ],
+            "minRow": 1,
+            "maxRow": 5,
+            "models": [
+                {
+                    "bgsounds": "http://s17.mogucdn.com/new1/v1/bmisc/ce5bf18bcc5d4125d34a06d065a9b3ca/160992436287.mp3"
+                }
+            ]
+        }
+    },
+    "pluginData": {}
+}

@@ -1,0 +1,59 @@
+.clearfix:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+}
+
+.clearfix{
+     zoom: 1;
+}
+
+.main-hot-model{
+    width:100%;
+    padding-bottom:80px;
+    background:rgb(214,28,77);
+}
+.hot{
+    width:960px;
+    margin:0 auto;
+}
+.hot-title{
+    width:700px;
+    height:55px;
+    margin:0 auto;
+    background-image:url(http://s16.mogucdn.com/p1/151020/upload_ie4wimjummzwmyrvgqzdambqgqyde_699x55.png);
+}
+.hot-main{
+    width:960px;
+    overflow:hidden;
+    height:auto;
+}
+ul.main-list {
+    width:100%;
+    height:auto;
+    margin-top:30px;
+}
+ul.main-list li a{
+    display:block;
+    position:absolute;
+    left:0;
+    bottom:0;
+    width:120px;
+    height:40px;
+    background-image:url(http://s18.mogucdn.com/p1/151020/upload_ie4wgoddmmzwmyrvgqzdambqgqyde_120x40.png);
+}
+.hot-main ul li{
+    position:relative;
+    margin-right:10px;
+    margin-bottom:16px;
+    width:230px;
+    height:230px;
+    float:left;
+}
+.hot-main ul li img{
+    width:100%;
+    height:100%;
+}
